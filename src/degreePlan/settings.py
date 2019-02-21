@@ -37,6 +37,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
+    # our apps
+    'courses',
+    'transferCredits',
+    'untBSCore',
+
+    # any third party apps we use
 ]
 
 MIDDLEWARE = [
