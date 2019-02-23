@@ -83,10 +83,10 @@ WSGI_APPLICATION = 'degreePlan.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'degreePlan',
-        'USER': 'postgres',
-        'PASSWORD': '',
-        'HOST': '127.0.0.1',
+        'NAME': 'pttmbbqs',
+        'USER': 'pttmbbqs',
+        'PASSWORD': 'rBnyaRisYrI2ofYsEl5aJLBo42PYc2f9',
+        'HOST': 'stampy.db.elephantsql.com',
         'PORT': '5432',
         }
 }
