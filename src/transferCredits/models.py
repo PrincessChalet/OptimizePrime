@@ -8,3 +8,6 @@ class TransferCredit(models.Model):
     equivalentToID = models.PositiveSmallIntegerField()
     equivalentToDept = models.CharField(max_length=4)
     requiredScore = models.CharField(max_length=5, null=True, blank=True)
+
+    def __str__(self):
+        return self.name
