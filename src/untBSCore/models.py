@@ -4,3 +4,6 @@ from django.db import models
 class UNTBSCore(models.Model):
     category = models.CharField(max_length=50)
     hours = models.PositiveSmallIntegerField()
+
+    def __str__(self):
+        return self.category
