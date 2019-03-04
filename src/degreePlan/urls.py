@@ -16,6 +16,16 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+#here is where we import the urls that we have created
+from degrees.views import allDegreesView, degreeClassesView, degreeTimeline
+from home.views import homeView
+
+#make sure to add the path to the to the url patters below
+#**** don't forget the comma !!!
 urlpatterns = [
+    path('', homeView),
     path('admin/', admin.site.urls),
+    path('degrees/', allDegreesView),
+    path('degree/', degreeClassesView),
+    path('timeline/', degreeTimeline),
 ]

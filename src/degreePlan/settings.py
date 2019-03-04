@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'courses',
     'transferCredits',
     'untBSCore',
+    'degrees',
+    'home',
 
     # any third party apps we use
 ]
@@ -58,10 +60,12 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'degreePlan.urls'
 
+
+# ****** added our own TEMPLATES directory
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, "templates")],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
