@@ -27,5 +27,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('degrees/', allDegreesView),
     path('degree/', degreeClassesView),
-    path('timeline/', degreeTimeline)
+    path('timeline/', degreeTimeline),
 ]

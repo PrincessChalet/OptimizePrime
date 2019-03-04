@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     'transferCredits',
     'untBSCore',
     'degrees',
-    'timeline',
     'home',
 
     # any third party apps we use
