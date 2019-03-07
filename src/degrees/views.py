@@ -34,14 +34,13 @@ def allDegreesView(request):
 
     return render(request, 'degree/degreeList.html', { 'form': degreeDropdown })
 
-# the function below was just a test function
-############# IGNORE ############
-def degreeSelection(request):
-  degreeDropdown = DegreeSelectionForm()
-
-  return render(request, "degree/dropdown.html", { 'form': degreeDropdown })
-
 def degreeClassesView(request):
+
+    if request.session.get('degree'):
+      print(request.session.get('degree'))
+      print('Degree Set')
+    else:
+      print('Need a degree')
     # here we would ask for a specific degree so something like
     # degree = Degree.objects.get(name='userInputDegree')
 

@@ -3,10 +3,10 @@
 <h5>//This is our menu, please note that currently the buttons are only linked to local URLs</h5>
 <nav>
     <ul>
-        <li><button type="button"><a href="127.0.0.1:8000/degreeList.html">Select a Degree</a></button></li>
-        <li><button type="button"><a href="127.0.0.1:8000/degreePlan.html">View Degree Plan</a></button></li>
-        <li><button type="button"><a href="127.0.0.1:8000/timeline.html">View Timeline</a></button></li>
-        <li><button type="button"><a href="127.0.0.1:8000/myTransferCredits.html">View Transfer Credits (Coming Soon!)</a></button></li>
+        <li><button type="button"><a href="{% url 'degrees' %}">Select a Degree</a></button></li>
+        <li><button type="button"><a href="{% url 'degreePlan' %}">View Degree Plan</a></button></li>
+        <li><button type="button"><a href="{% url 'timeline' %}">View Timeline</a></button></li>
+        <li><button type="button"><a href="127.0.0.1:8000/myTransferCredits.html">View Transfer Credits (Coming Soon! Don't click here)</a></button></li>
     </ul>
 </nav>
 <p>----- End of menu ----- </p>
