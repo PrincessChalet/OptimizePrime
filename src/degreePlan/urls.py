@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path
 
 #here is where we import the urls that we have created
-from degrees.views import allDegreesView, degreeClassesView, degreeTimeline
+from degrees.views import allDegreesView, degreeClassesView, degreeTimeline, degreeSelection
 from home.views import homeView
 
 #make sure to add the path to the to the url patters below
@@ -28,4 +28,5 @@ urlpatterns = [
     path('degrees/', allDegreesView),
     path('degree/', degreeClassesView),
     path('timeline/', degreeTimeline),
+    path('dropdown/', degreeSelection),
 ]

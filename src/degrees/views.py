@@ -2,17 +2,44 @@ from django.shortcuts import render
 
 #import the degrees model
 from .models import Degree
+from .forms import DegreeSelectionForm
+
+#adding something to create a model to dict
+from django.forms.models import model_to_dict
 
 # Create your views here.
 def allDegreesView(request):
-    # we would use the line below to get all the degrees from the database
-    # degreesList = Degree.objects.all()
+   
+    # need to figure out stuff about default values
+    if request.method == 'POST':
+      degreeChoice = DegreeSelectionForm(request.POST)
 
-    # the line below is a sample context normally we would have
-    # context = { degreeList } I think
-    context = { 'name' : "Computer Science"}
+      # The code below is used to get the user's input
+      if degreeChoice.is_valid():
+        cleanedChoice = degreeChoice.cleaned_data
 
-    return render(request, 'degree/degreeList.html', context)
+        # when accessing objects we will need try/except blocks 
+        try:
+          choice = Degree.objects.filter(name=cleanedChoice['degreeChoices'])
+          
+          print(choice[0].degreeInfo)
+          request.session['degree']=model_to_dict(choice[0])
+           
+        except Degree.DoesNotExist:
+          print('invalid selection')
+      else:
+        print('invalid choice')
+
+    degreeDropdown = DegreeSelectionForm()
+
+    return render(request, 'degree/degreeList.html', { 'form': degreeDropdown })
+
+# the function below was just a test function
+############# IGNORE ############
+def degreeSelection(request):
+  degreeDropdown = DegreeSelectionForm()
+
+  return render(request, "degree/dropdown.html", { 'form': degreeDropdown })
 
 def degreeClassesView(request):
     # here we would ask for a specific degree so something like
