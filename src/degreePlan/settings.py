@@ -61,7 +61,7 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'degreePlan.urls'
 
 
-# ****** added our own TEMPLATES directory
+# ****** added our own TEMPLATES directory in dir
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
