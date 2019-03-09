@@ -25,7 +25,7 @@ from home.views import homeView
 urlpatterns = [
     path('', homeView),
     path('admin/', admin.site.urls),
-    path('degrees/', allDegreesView),
-    path('degree/', degreeClassesView),
-    path('timeline/', degreeTimeline),
+    path('degrees/', allDegreesView, name='degrees'),
+    path('degree/', degreeClassesView, name='degreePlan'),
+    path('timeline/', degreeTimeline, name='timeline'),
 ]
