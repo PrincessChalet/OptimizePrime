@@ -34,6 +34,7 @@ def allDegreesView(request):
 
     return render(request, 'degree/degreeList.html', { 'form': degreeDropdown })
 
+#This is the function for structure for saving user info @CHALET
 def degreeClassesView(request):
 
     if request.session.get('degree'):
@@ -41,17 +42,9 @@ def degreeClassesView(request):
       print('Degree Set')
     else:
       print('Need a degree')
-    # here we would ask for a specific degree so something like
-    # degree = Degree.objects.get(name='userInputDegree')
 
     sampleContext = {'name': "Computer Science"}
-  #  sampleContext = {'name': "Computer Science",
-   #                  'Core Sections' : ['Communications', 'Creative arts'],
-    #                 'Requirements' : [
-     #                                   'Mathematics' : ['MATH 1010', 'Math 1020'],
-      #                                  'Science' : ['BIOL 1010'],
-       #                                   ]
-        #            }
+
 
     return render(request, 'degree/degreePlan.html', sampleContext)
 
