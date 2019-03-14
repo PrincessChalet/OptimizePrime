@@ -3,7 +3,7 @@
 {% block content %}
 
 <p>Here is where the information about a single degree is displayed!</p>
-{% if request.session.degree is None %}
+{% if request.session.degree is none %}
 <p>You need to pick a degree first!</p>
 {% else %}
 <p>You have a degree!</p>

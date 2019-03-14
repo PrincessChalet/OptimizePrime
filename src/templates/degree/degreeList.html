@@ -7,7 +7,7 @@
 
 <div id="degreeDropdown">
     <form method='POST'>
-        {% csrf_token %}
+        {{ csrf_input }}
         {{ form }}
         <button type='submit'>
             Submit
