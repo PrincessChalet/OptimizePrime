@@ -1,5 +1,12 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
 <p>Here is where the information about a single degree is displayed!</p>
+{% if request.session.degree is None %}
+<p>You need to pick a degree first!</p>
+{% else %}
+<p>You have a degree!</p>
+{% endif %}
+
 {% endblock %}

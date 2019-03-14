@@ -5,7 +5,16 @@
 <p>This file is in templates/degree/degreeList.html but also check degrees/views.py</p>
 <h1>Dropdown menu of majors goes here!</h1>
 
-<p> {{ name }}</p>
+<div id="degreeDropdown">
+    <form method='POST'>
+        {% csrf_token %}
+        {{ form }}
+        <button type='submit'>
+            Submit
+        </button>
+    </form>
+
+</div>
 
 <p>----- End of dropdown ----- </p>
 {% endblock %}
