@@ -58,8 +58,7 @@ def degreeTimeline(request):
 
 
     ### assume we extracted all the classes from the JSON degree object
-    ### and placed them in a list. 
-    ### Might make CHALET add that to the JSON objetcs
+    ### and placed them in a list.
     degreeCourses = ["MATH 1710", "MATH 1720", "TECM 2700", "CSCE 2100", "CSCE 2110", "CSCE 3110", "CSCE 4110", "CSCE 4444", "CSCE 4901"]
 
     sampleContext = {'name': 'Computer Science'}
@@ -68,5 +67,8 @@ def degreeTimeline(request):
 
     print("Finished setting the timeline\n\n")
     print(timeline)
+
+#******** need to further refine the timeline here before passing it to the view
+#******** need another util function
 
     return render(request, 'degree/timeline.html', {'timeline': timeline})

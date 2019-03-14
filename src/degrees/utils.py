@@ -64,7 +64,8 @@ def updatePriority(updateInfo, course, timeline):
 
     return index
 
-#**** need to solve an issue with the core courses
+#**** no longer using the offset
+#**** I should probably add a list of the prereqs to the tuple in the timeline
 # needs the course, the course list, the corelist, the "offset", the dictionary
 def coursePlacement(currentCourse, coursesList, coreList, offset, timeline):
     print("++++++++++ Current Course: " + currentCourse)
@@ -117,10 +118,7 @@ def coursePlacement(currentCourse, coursesList, coreList, offset, timeline):
             for i in temp["prereqCourses"]:
                 print("***** Current prereq:  "+temp["prereqCourses"][i][0]) # test print
                
-                #for j in temp["prereqCourses"][i]:
-                #    print(j)
-               
-### check if the prereq is a core course here
+                # check if the prereq is a core course
                 prereqName = temp["prereqCourses"][i][0]
                 pTokens = prereqName.split()
                 
@@ -185,3 +183,8 @@ def coursePlacement(currentCourse, coursesList, coreList, offset, timeline):
 
 def priority(x):
     return x[1]
+
+# this function needs to divide the timeline into the courses for each semester
+def processTimeline():
+
+    return
