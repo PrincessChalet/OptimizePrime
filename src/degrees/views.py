@@ -64,6 +64,9 @@ def degreeTimeline(request):
 
     sampleContext = {'name': 'Computer Science'}
 
-    timelineGenerator()
+    timeline = timelineGenerator()
 
-    return render(request, 'degree/timeline.html', sampleContext)
+    print("Finished setting the timeline\n\n")
+    print(timeline)
+
+    return render(request, 'degree/timeline.html', {'timeline': timeline})
