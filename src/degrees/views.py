@@ -6,7 +6,7 @@ from .forms import DegreeSelectionForm
 
 #adding something to create a model to dict
 from django.forms.models import model_to_dict
-from .utils import timelineGenerator
+from .utils import timelineGenerator, processTimeline
 
 # Create your views here.
 # Description: This function generates a dropdown form so that he users
@@ -65,10 +65,13 @@ def degreeTimeline(request):
 
     timeline = timelineGenerator()
 
-    print("Finished setting the timeline\n\n")
-    print(timeline)
-
+    #print("Finished setting the timeline\n\n")
+    #print(timeline)
+    
+    fullTimeline = processTimeline(timeline)
+    #print(fullTimeline)
 #******** need to further refine the timeline here before passing it to the view
 #******** need another util function
 
-    return render(request, 'degree/timeline.html', {'timeline': timeline})
+    #return render(request, 'degree/timeline.html', {'timeline': timeline})
+    return render(request, 'degree/timeline.html', {'timeline': fullTimeline})

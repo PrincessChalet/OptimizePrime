@@ -2,14 +2,11 @@
 
 {% block content %}
 <h1>Here's your timeline!</h1>
+<p>First Semester</p>
 {% for level in timeline %}
-    {% for course in timeline[level] %}
-        <p>{{ course[0] }}</p>
+    {% for course in level %}
+        <p>{{ course }}</p>
     {% endfor %}
+    <p>Another Semester</p>
 {% endfor %}
-{# % for level, arr in timeline.items %}
-    {% for x in arr %}
-        <p>{{ x.0 }}</p>
-    {% endfor %}
-{% endfor % #}
 {% endblock %}
