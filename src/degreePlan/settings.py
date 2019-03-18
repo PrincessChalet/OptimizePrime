@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'untBSCore',
     'degrees',
     'home',
+    'bootstrap4',
 
     # any third party apps we use
 ]
@@ -142,3 +143,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = ''
+STATICFILES_DIRS = (os.path.join('static'), )
+

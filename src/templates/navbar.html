@@ -1,12 +1,38 @@
-<p>----- Start of menu -----</p>
-<h6>//The code between the dashes is in templates/navbar.html</h6>
-<h5>//This is our menu, please note that currently the buttons are only linked to local URLs</h5>
+
+<!-- As a heading -->
+<nav class="navbar navbar-expand-lg navbar-light"> <!-- Logo -->
+
+	<ul class="nav">
+		<li class="navbar-logo">
+			<a class=navbar-brand" href="#">
+		  		<img src="{{static('img/logo.png')}}">
+		 	</a>
+	 	</li>
+ 	</ul>
+
+ 	<ul>
+	 	<li class = "nav-title">
+	 		Degree Planning
+	 	</li>
+ 	</ul>
+
+
+ </div>
+
+
+</nav>
+
+<!--Start menu -->
+<br>
 <nav>
-    <ul>
-        <li><button type="button"><a href="{{ url('degrees') }}">Select a Degree</a></button></li>
-        <li><button type="button"><a href="{{ url('degreePlan') }}">View Degree Plan</a></button></li>
-        <li><button type="button"><a href="{{ url ('timeline') }}">View Timeline</a></button></li>
-        <li><button type="button"><a href="127.0.0.1:8000/myTransferCredits.html">View Transfer Credits (Coming Soon! Don't click here)</a></button></li>
+    <ul class="nav justify-content-center">
+
+        <li class="menu-item"><button type="button" class= "btn btn-outline-success "><a href="{{ url('degrees') }} ">Select a Degree</a></button></li>
+        <li class="menu-item"><button type="button" class= "btn btn-outline-success "><a href="{{ url('degreePlan') }}">View Degree Plan</a></button></li>
+        <li class="menu-item"><button type="button" class= "btn btn-outline-success "><a href="{{ url ('timeline') }}">View Timeline</a></button></li>
+        <li class="menu-item"><button type="button" class= "btn btn-outline-success "><a href="127.0.0.1:8000/myTransferCredits.html">View Transfer Credits (Coming Soon! Don't click here)</a></button></li>
     </ul>
 </nav>
-<p>----- End of menu ----- </p>
+<br>
+<!--End Menu -->
+

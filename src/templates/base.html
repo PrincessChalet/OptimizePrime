@@ -6,13 +6,21 @@
 -->
 <html>
     <head>
+         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> <!-- Bootstrap css -->
+         <link rel="shortcut icon" type="image/png" href="{{static('img/favicon.png')}}"> <!-- favicon -->
         <title>CSCE 4901 UNT Degree Plan</title>
+        <link rel="stylesheet" href="{{static ('CSS/style.css')}}">
+
     </head>
-    <body>
+    <body style="background-image: url({{static('img/background2.png')}});">
+        
+
         {% include 'navbar.html' %}
 
-        {% block content %}
-        We can still put stuff here
-        {% endblock %}
+        <div class="container">
+            {% block content %}
+            We can still put stuff here
+            {% endblock %}
+        </div>
     </body>
 </html>
