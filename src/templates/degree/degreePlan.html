@@ -7,6 +7,15 @@
 <p>You need to pick a degree first!</p>
 {% else %}
 <p>You have a degree!</p>
+<form method="POST">
+    {{ csrf_input }}
+    {% for i in form %}
+        {{ i }}
+    {% endfor %}
+    <button type="submit" class="btn btn-success">
+        Submit
+    </button>
+</form>
 {% endif %}
 
 {% endblock %}

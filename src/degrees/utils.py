@@ -282,3 +282,24 @@ def processTimeline(timeline):
         fullTimeline.append(tempArr) # add the semester to the timeline
 
     return fullTimeline # return the processed timeline
+
+def degreeViewStructure(coreRequirements, degreeRequirements):
+
+    #print(degreeRequirements)
+    print("\n\n")
+    requirements = []
+
+    for section in degreeRequirements:
+        temp = []
+        for course in degreeRequirements[section]:
+            if type(course) is str:
+                requirements.append([course])
+                print(course)
+            elif type(course) is list:
+                temp = []
+                for subCourse in course:
+                    temp.append(subCourse)
+                requirements.append(temp)
+
+    print(requirements)
+    return
