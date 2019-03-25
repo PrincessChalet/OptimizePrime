@@ -6,7 +6,7 @@ from .forms import DegreeSelectionForm
 
 #adding something to create a model to dict
 from django.forms.models import model_to_dict
-from .utils import timelineGenerator
+from .utils import timelineGenerator, processTimeline
 
 # Create your views here.
 # Description: This function generates a dropdown form so that he users
@@ -58,15 +58,20 @@ def degreeTimeline(request):
 
 
     ### assume we extracted all the classes from the JSON degree object
-    ### and placed them in a list. 
-    ### Might make CHALET add that to the JSON objetcs
+    ### and placed them in a list.
     degreeCourses = ["MATH 1710", "MATH 1720", "TECM 2700", "CSCE 2100", "CSCE 2110", "CSCE 3110", "CSCE 4110", "CSCE 4444", "CSCE 4901"]
 
     sampleContext = {'name': 'Computer Science'}
 
     timeline = timelineGenerator()
 
-    print("Finished setting the timeline\n\n")
-    print(timeline)
+    #print("Finished setting the timeline\n\n")
+    #print(timeline)
+    
+    fullTimeline = processTimeline(timeline)
+    #print(fullTimeline)
+#******** need to further refine the timeline here before passing it to the view
+#******** need another util function
 
-    return render(request, 'degree/timeline.html', {'timeline': timeline})
+    #return render(request, 'degree/timeline.html', {'timeline': timeline})
+    return render(request, 'degree/timeline.html', {'timeline': fullTimeline})

@@ -1,0 +1,57 @@
+navbar-brand {
+	background-color: #009933;
+}
+navbar-nav {
+	display:inline-block;
+}
+h1 {
+
+}
+nav li {display:inline-block;}
+
+.menu-item{
+
+
+}
+.nav-title{
+	font-size: 32px;
+
+}
+.nav-logo{
+
+}
+
+.navbar-light{
+
+	background: rgba(85,198,87,.6);
+}
+body{
+	width: 100%;
+	
+	
+}
+.btn-outline-success:active:focus{
+background-color: rgba(85,198,87,.6); 
+}
+.btn-outline-success:hover, 
+.btn-outline-success:focus, 
+.btn-outline-success:active, 
+.btn-outline-success.active,
+.btn-outline-success, 
+.open .dropdown-toggle.btn-success { 
+ 
+ border-color: rgba(85,198,87,.6);
+ margin-right: 5px
+} 
+.btn-success
+{
+	background-color: rgba(85,198,87,1);
+}
+.timeline-course{
+	list-style-type:circle;
+	margin-left: 8px;
+}
+.semester{
+	font-size:18px;
+
+}

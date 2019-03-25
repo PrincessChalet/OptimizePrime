@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'untBSCore',
     'degrees',
     'home',
+    'bootstrap4',
 
     # any third party apps we use
 ]
@@ -62,10 +63,19 @@ ROOT_URLCONF = 'degreePlan.urls'
 
 
 # ****** added our own TEMPLATES directory in dir
+# ****** added jinja to the TEMPLATES
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'BACKEND': 'django.template.backends.jinja2.Jinja2',
         'DIRS': [os.path.join(BASE_DIR, "templates")],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'environment': 'degreePlan.jinja2.environment',
+        },
+    },
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -133,3 +143,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = ''
+STATICFILES_DIRS = (os.path.join('static'), )
+
