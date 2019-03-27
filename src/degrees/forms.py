@@ -52,3 +52,5 @@ class CoursesSelectionForm(forms.Form):
         widget=forms.CheckboxSelectMultiple,
         choices=tempArr
     )
+
+#class CourseCheckbox(forms.Form):
