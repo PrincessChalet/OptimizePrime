@@ -9,10 +9,7 @@
 <p>You have a degree!</p>
 <form method="POST">
     {{ csrf_input }}
-    {# form #}
-    {% for i in form %}
-        {{ i }} <p>info</p>
-    {% endfor %}
+    {{ form }}
     <button type="submit" class="btn btn-success">
         Submit
     </button>
