@@ -70,7 +70,7 @@ TEMPLATES = [
         'DIRS': [os.path.join(BASE_DIR, "templates")],
         'APP_DIRS': True,
         'OPTIONS': {
-            'environment': 'degreePlan.jinja2.environment',
+            'environment': 'degreePlan.jinja2.env.environment',
         },
     },
     {

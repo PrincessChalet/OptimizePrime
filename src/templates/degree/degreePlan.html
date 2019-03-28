@@ -8,11 +8,41 @@
 {% else %}
 <p>You have a degree!</p>
 <form method="POST">
+    <div style="width:25%">
     {{ csrf_input }}
-    {{ form }}
-    <button type="submit" class="btn btn-success">
-        Submit
-    </button>
+
+    {# In the section below we would want to be able to identify how to treat the category #}
+    {% for category in degree %}
+        <h2>{{ category }}</h2>
+        {% for course in degree[category] %}
+            {% if course is isList %}
+                {% for subcourse in course%}
+                    <p>{{ subcourse }}</p>
+                {% endfor %}
+            {% else %}
+                    <input style="float:left" type="checkbox" name="Computer Science" value="{{ course }}">
+                    <p style="padding-left:25px">{{ course }}</p>
+            {% endif %}
+        <!--input type="checkbox" name="course A" value="course A">CourseA<br-->
+        {% endfor%}
+    {% endfor %}
+
+    {# sample elective category #}
+    <h2>Sample Computer Science Free Electives</h2>
+    {# determine how many check boxes the section needs #}
+    {% for i in range(3) %}
+        <input style="float:left" type="checkbox" name="Computer Science" value="Computer Science Free Electives">
+        <p style="padding-left:25px">Computer Science Free Elective</p>
+    {% endfor %}
+    {# Here we want to print out the each course #}
+    {# % for course in category % #}
+    {% for i in range(7) %}
+        <p> course {{ i }}</p>
+    {% endfor %}
+    {# % endfor % #}
+
+    </div>
+    <button type="submit" class="btn btn-success">Submit</button>
 </form>
 {% endif %}
 
