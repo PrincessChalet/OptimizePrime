@@ -2,7 +2,12 @@ from django.shortcuts import render
 
 #import the degrees model
 from .models import Degree
+
+# import the forms
 from .forms import DegreeSelectionForm, CoursesSelectionForm
+
+# import the courses model
+from courses.models import Course
 
 #adding something to create a model to dict
 from django.forms.models import model_to_dict
@@ -350,6 +355,7 @@ def degreeClassesView(request):
 
 
     # seems like the degree context will need a degree name
+    # somehow we need to map each course description with the database
     degreeContext = {
                 "Computer Science and Engineering": [
                     "CSCE 1030",
@@ -368,11 +374,20 @@ def degreeClassesView(request):
                     ]
                 ]
     }
-    #test2 = CoursesSelectionForm()
-    #checkArr = [test,test2]
-    #sampleContext = {'test': "Computer Science"}
 
-    return render(request, 'degree/degreePlan.html', {'degree': degreeContext})
+    temp = Course.objects.filter(courseID = 1030, courseDept="CSCE")
+    temp = model_to_dict(temp[0])
+    print(temp)
+    tempDict = {temp['courseDept'] + " " + str(temp['courseID']) : temp['description']}
+    print(tempDict)
+
+    tempContext = {
+        "degree": degreeContext,
+        "courseDescriptions" : tempDict,
+    }
+
+    #return render(request, 'degree/degreePlan.html', {'degree': degreeContext})
+    return render(request, 'degree/degreePlan.html', { "context":tempContext })
 
 # Description: This function determines which courses need will be
 #              shown in the timeline view
