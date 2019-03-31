@@ -7,6 +7,8 @@ class DegreeSelectionForm(forms.Form):
     degreeList = Degree.objects.all()
     
     degrees = []
+
+    print(degreeList)
     for degree in degreeList:
         degrees.append((degree.name,  degree.name))
 
