@@ -51,6 +51,11 @@ background-color: rgba(85,198,87,.6);
 	list-style-type:circle;
 	margin-left: 8px;
 }
+
+.pre{
+	white-space: pre-wrap;
+}
+
 .semester{
 	font-size:18px;
 

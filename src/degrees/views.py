@@ -11,7 +11,7 @@ from courses.models import Course
 
 #adding something to create a model to dict
 from django.forms.models import model_to_dict
-from .utils import timelineGenerator, processTimeline, degreeViewStructure
+from .utils import timelineGenerator, processTimeline, courseDescriptionStructure
 
 # Create your views here.
 # Description: This function generates a dropdown form so that he users
@@ -62,39 +62,19 @@ def degreeClassesView(request):
 
     # seems like the degree context will need a degree name
     # somehow we need to map each course description with the database
-    degreeContext = {
-                "Computer Science and Engineering": [
-                    "CSCE 1030",
-                    "CSCE 1040",
-                    "CSCE 2100",
-                    "CSCE 2110",
-                    "CSCE 2610",
-                    "CSCE 3110",
-                    "CSCE 3600",
-                    "CSCE 4010",
-                    "CSCE 4110",
-                    "CSCE 4444",
-                    [
-                        "CSCE 4901",
-                        "CSCE 4999"
-                    ]
-                ]
-    }
+    details = courseDescriptionStructure(usersDegree)
 
 
     # the code below should go in the utility function 
     temp = Course.objects.filter(courseID = 1030, courseDept="CSCE")
     temp = model_to_dict(temp[0])
-    #print(temp)
     tempDict = {temp['courseDept'] + " " + str(temp['courseID']) : temp['description']}
-    #print(tempDict)
 
     tempContext = {
         "degree": usersDegree,
-        #"courseDescriptions" : tempDict,
+        "coursesInfo" : details,
     }
 
-    #return render(request, 'degree/degreePlan.html', {'degree': degreeContext})
     return render(request, 'degree/degreePlan.html', { "context": tempContext })
 
 # Description: This function determines which courses need will be
