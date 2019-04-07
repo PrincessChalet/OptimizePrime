@@ -19,7 +19,7 @@ def timelineGenerator():
     # here we loop through each course in the degree
     for i in degreeCourses:
         # call the recursive function
-        coursePlacement(i, degreeCourses, coreCats, 0, timeline)
+        coursePlacement(i, degreeCourses, coreCats, timeline)
 
     #print(timeline) #test print
 
@@ -90,10 +90,12 @@ def updatePriority(updateInfo, course, timeline):
 
     return index # return the index
 
-#**** no longer using the offset
-#**** I should probably add a list of the prereqs to the tuple in the timeline
 # needs the course, the course list, the corelist, the "offset", the dictionary
-def coursePlacement(currentCourse, coursesList, coreList, offset, timeline):
+# Description: This function recursively finds the a courses prerequisites by querying the database
+# Return:      a dictionary that acts as hash map of the location for each course
+# Parameters:  currentCourse is a course in a list, the coursesList is the list of courses in the degree, coreList is
+#              a list of the univeristy core categories, timeline is the preprocessed timeline
+def coursePlacement(currentCourse, coursesList, coreList, timeline):
     print("++++++++++ Current Course: " + currentCourse)
     tokens = currentCourse.split()
     
@@ -160,7 +162,7 @@ def coursePlacement(currentCourse, coursesList, coreList, offset, timeline):
                         prereqArr.append(prereqName)
 
                     # recursively update the prereq's prereqs
-                    placement = coursePlacement(temp["prereqCourses"][i][0], coursesList, coreList, 0, timeline)+1
+                    placement = coursePlacement(temp["prereqCourses"][i][0], coursesList, coreList, timeline)+1
                     
                     # keep track of the largest placement since it determines the placement of the current course
                     if placement > largest:
@@ -207,6 +209,9 @@ def priority(x):
     return x[1]
 
 # this function needs to divide the timeline into the courses for each semester
+# Description:  This function separates the timeline dictionary into groups of 5
+# Return:       a list of lists of five entries where each entry is a course
+# Parameter:    the timeline dictionary
 def processTimeline(timeline):
     fullTimeline = [] # the processed timeline
 
@@ -282,3 +287,55 @@ def processTimeline(timeline):
         fullTimeline.append(tempArr) # add the semester to the timeline
 
     return fullTimeline # return the processed timeline
+
+# Description:  The function takes a degree object and generates a dictionary where
+#               each key is a course and each value is a course's database information
+# Return:       A dictionary that maps courses with their database information
+# Parameter:    A degree database object as a dictionary
+def courseDescriptionStructure(degree):
+
+    courseDescriptions = {}
+
+    # iterate through the object and find the specific courses
+    for courseList in degree['degreeInfo'].values():
+        for element in courseList:
+            if type(element) is list:
+                for course in element:
+                    if '*' not in course:
+                        courseDescriptions[course] = generateCourseInfo(course)
+            elif type(element) is str:
+                course = element
+                if '*' not in course:
+                    courseDescriptions[course] = generateCourseInfo(course)
+            elif type(element) is dict:
+                subcategory = element
+                for subCatCourseList in subcategory.values():
+                    for entry in subCatCourseList:
+                        if type(entry) is list:
+                            for course in entry:
+                                if '*' not in course:
+                                    courseDescriptions[course] = generateCourseInfo(course)
+                        elif type(entry) is str:
+                            course = entry
+                            if '*' not in course:
+                                courseDescriptions[course] = generateCourseInfo(course)
+
+    return courseDescriptions
+# Description:  This function is used to build a string the represents the information for a particular course
+# Return        A string which holds the parameters information the information is the course's name,
+#               the number of the course's hours, and the course's description
+# Parameter:    the course department and course id as a single string, i.e. CSCE 1030   
+def generateCourseInfo(course):
+
+    # split the course string
+    tokens = course.split(' ')
+
+    # query the database for the course
+    courseObj = Course.objects.filter(courseDept=tokens[0], courseID=tokens[1])
+    courseObj = model_to_dict(courseObj[0])
+
+    # build the course's info string
+    courseInfo = courseObj['name'] + ' ' + str(courseObj['hours']) + ' hours\n'
+    courseInfo = courseInfo + '\n' + courseObj['description']
+
+    return courseInfo
