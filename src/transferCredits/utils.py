@@ -21,7 +21,7 @@ def generateTCListByCategory():
 
     #Array of category "departments"
     categoriesShort = ['TECM', 'CSCE', 'ENGR', 'BIOL', 'CHEM', 'PHYS', 'MATH']
-    print(categoriesShort[4])
+
     #
     equivalencyMap = {} 
     indexCounter = 0
