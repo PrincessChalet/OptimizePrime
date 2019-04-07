@@ -10,14 +10,25 @@
     <h1>{{ context['degree']['name'] }}</h1>
     <div>
     {{ csrf_input }}
-
+    
     {# retrieve the categories from the degree object #}
     {# split the category to identify how to process the category #}
     {% for category in context['degree']['degreeInfo'] %}
         {% set tokens = category.split('@') %}
         <h2>{{ tokens[1] }}</h2>
-        {% if '&' in tokens[0] %} 
-            {% for course in context['degree']['degreeInfo'][category]%}
+        {% if '&' in tokens[0] %}
+            <div class="row">
+            <div class="course-col">
+            {% for course in context['degree']['degreeInfo'][category] %}
+
+                {% if loop.index-1 == ((context['degree']['degreeInfo'][category]|length)/3)|round(0,'ceil')|int %}
+                </div>
+                <div class="course-col">
+                {% elif loop.index-1 == (((context['degree']['degreeInfo'][category]|length)/3)*2)|round(0,'ceil')|int %}
+                </div>
+                <div class="course-col">
+                {% endif %}
+
                 {% if course is isList %}
                     {% set courseL = course|join(" or ") %}
                     <input type="checkbox" name="{{ context['degree']['name'] }}" value="{{ courseL }}" style="float:left">
@@ -28,23 +39,30 @@
                                         or <span>{{ subcourse }}</span>
                                     {% else %}
                                         or <span onclick="hideShow('{{ subcourse }}')">{{ subcourse }}</span>
-                                        <span id="{{ subcourse }}" style="display:none">Course Description</span>
+                                        <pre id="{{ subcourse }}" style="display:none">{{ context['coursesInfo'][subcourse] }}</pre>
                                     {% endif %}
                                 {% else %}
                                     {% if '*' in subcourse %}
                                         <span>{{ subcourse }}</span>
                                     {% else %}
                                         <span onclick="hideShow('{{ subcourse }}')">{{ subcourse }}</span>
-                                        <span id="{{ subcourse }}" style="display:none">Course Description</span>
+                                        <pre id="{{ subcourse }}" style="display:none">{{ context['coursesInfo'][subcourse] }}</pre>
                                     {% endif %}
                                 {% endif %}
                     {% endfor %}
                 {% else %}
-                    <input type="checkbox" name="{{ context['degree']['name'] }}" value="{{ course }}" style="float:left">
-                    <p onclick="hideShow('{{ course }}')" style="padding-left:2em">{{ course }}</p>
-                    <p id="{{ course }}" style="display:none">Course Description</p>
+                    {% if '*' in course %}
+                        <input type="checkbox" name="{{ context['degree']['name'] }}" value="{{ course }}" style="float:left">
+                        <p style="padding-left:2em">{{ course }}</p>
+                    {% else %}
+                        <input type="checkbox" name="{{ context['degree']['name'] }}" value="{{ course }}" style="float:left">
+                        <p class="cC" onclick="hideShow('{{ course }}')">{{ course }}</p>
+                        <div id="{{ course }}" style="display:none;white-space:pre-wrap">{{ context['coursesInfo'][course] }}</div>
+                    {% endif %}
                 {% endif%}
             {% endfor %}
+            </div>
+            </div>
         {% elif '*#' in tokens[0] %}
             {% set hrs = tokens[0]|extractNumber %}
             {% for hr in range(hrs) %}
@@ -65,14 +83,14 @@
                                         or <span>{{ i }}</span>
                                     {% else %}
                                         or <span onclick="hideShow('{{ i }}')">{{ i }}</span>
-                                        <span id="{{ i }}" style="display:none">Course Description</span>
+                                        <pre id="{{ i }}" style="display:none">{{ context['coursesInfo'][i] }}</pre>
                                     {% endif %}
                                 {% else %}
                                     {% if '*' in i %}
                                         <span>{{ i }}</span>
                                     {% else %}
                                         <span onclick="hideShow('{{ i }}')">{{ i }}</span>
-                                        <span id="{{ i }}" style="display:none">Course Description</span>
+                                        <pre id="{{ i }}" style="display:none">{{ context['coursesInfo'][i] }}</pre>
                                     {% endif %}
                                 {% endif %}
                             {% endfor %}
@@ -83,7 +101,7 @@
                                 <p style="padding-right:15px">{{ c }}</p>
                             {% else %}
                                 <p onclick="hideShow('{{ c }}')" style="padding-right:15px">{{ c }}</p>
-                                <p id="{{ c }}" style="display:none">Course Description</p>
+                                <pre id="{{ c }}" style="display:none">{{ context['coursesInfo'][c] }}</pre>
                             {% endif %}
                         {% endif %}
                     {% endfor %}
@@ -106,20 +124,20 @@
                                 or <span>{{ subcourse }}</span>
                             {% else %}
                                 or <span onclick="hideShow('{{ subcourse }}')">{{ subcourse }}</span>
-                                <span id="{{ subcourse }}" style="display:none">Course Description</span>
+                                <pre id="{{ subcourse }}" style="display:none">{{ context['coursesInfo'][subcourse] }}</pre>
                             {% endif %}
                         {% else %}
                             {% if '*' in subcourse %}
                                 <span>{{ subcourse }}</span>
                             {% else %}
                                 <span onclick="hideShow('{{ subcourse }}')">{{ subcourse }}</span>
-                                <span id="{{ subcourse }}" style="display:none">Course Description</span>
+                                <pre id="{{ subcourse }}" style="display:none">{{ context['coursesInfo'][subcourse] }}</pre>
                             {% endif %}
                         {% endif %}
                     {% endfor %}
                 {% else %}
                     <p onclick="hideShow('{{ course }}')">{{ course }}</p>
-                    <p id="{{ course }}" style="display:none">Course Description</p>
+                    <pre id="{{ course }}" style="display:none">{{ context['coursesInfo'][course] }}</pre>
                 {% endif%}
             {% endfor %}
         {% endif %}

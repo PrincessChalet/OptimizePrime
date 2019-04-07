@@ -9,6 +9,18 @@ h1 {
 }
 nav li {display:inline-block;}
 
+.course-col {
+	position: relative;
+	
+	flex: 0 0 33.333333%;
+	max-width: 33.333333%;
+}
+
+.row{
+	display: flex;
+	flex-wrap: wrap;
+}
+
 .menu-item{
 
 
@@ -21,13 +33,21 @@ nav li {display:inline-block;}
 
 }
 
+.cC {
+	padding-left: 2em;
+}
+
+.cC:hover {
+	background-color: #d3d3d3;
+}
+
 .navbar-light{
 
 	background: rgba(85,198,87,.6);
 }
+
 body{
 	width: 100%;
-	
 	
 }
 .btn-outline-success:active:focus{
@@ -51,7 +71,15 @@ background-color: rgba(85,198,87,.6);
 	list-style-type:circle;
 	margin-left: 8px;
 }
+
+.pre{
+	white-space: pre-wrap;
+}
+
+
+
 .semester{
 	font-size:18px;
 
 }
+
