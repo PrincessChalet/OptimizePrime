@@ -321,6 +321,8 @@ def courseDescriptionStructure(degree):
                                 courseDescriptions[course] = generateCourseInfo(course)
 
     return courseDescriptions
+
+    
 # Description:  This function is used to build a string the represents the information for a particular course
 # Return        A string which holds the parameters information the information is the course's name,
 #               the number of the course's hours, and the course's description
