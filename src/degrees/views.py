@@ -42,8 +42,6 @@ def allDegreesView(request):
         print('invalid choice')
 
     degreeDropdown = DegreeSelectionForm()
-    test = CoursesSelectionForm(test=mathForm)
-    
 
     return render(request, 'degree/degreeList.html', { 'form': degreeDropdown })
 
