@@ -2,14 +2,32 @@
 
 {% block content %}
 
-<p>Transfer Credit View</p>
+<h1>Transfer Credit View</h1>
+<p>Please select the credits you already have from the list of possible transfer credits below.</p>
 
-<form method='POST'>
-    {{ csrf_input }}
-    {{ form }}
-    <button type='submit'>
-        Submit
-    </button>
-</form>
+<container>
+    <form method='POST'>
+
+        {% for categories, courses in equivalencyList.items() %}
+            <h3>{{categories}}</h3>
+    
+            <!--  -->
+            {% for course in courses %}
+                <!-- <p>{{course}}</p> -->
+                
+                <input type = 'checkbox' value = "{{ course[0] }}" name = 'transfer credits'>
+                <p>{{course[1]}} -> {{course[0]}}</p>
+    
+            {% endfor %}
+    
+        {% endfor %}
+            
+        <button type='submit'>
+            Submit
+        </button>
+    </form>
+
+</container>
+
 
 {% endblock %}
