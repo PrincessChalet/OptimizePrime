@@ -4,6 +4,7 @@ from django.shortcuts import render
 from .models import Degree
 
 # import the forms
+# the right form is not used anymore
 from .forms import DegreeSelectionForm, CoursesSelectionForm
 
 # import the courses model
@@ -21,6 +22,8 @@ def allDegreesView(request):
     # need to figure out stuff about default values
     if request.method == 'POST':
       degreeChoice = DegreeSelectionForm(request.POST)
+      mathForm = ['MATH']
+      test = CoursesSelectionForm(request.POST, test=mathForm)
 
       # The code below is used to get the user's input
       if degreeChoice.is_valid():
@@ -39,6 +42,8 @@ def allDegreesView(request):
         print('invalid choice')
 
     degreeDropdown = DegreeSelectionForm()
+    test = CoursesSelectionForm(test=mathForm)
+    
 
     return render(request, 'degree/degreeList.html', { 'form': degreeDropdown })
 
@@ -47,7 +52,6 @@ def degreeClassesView(request):
 
     if request.method == 'POST':
         print(request.POST)
-
 
     #the context needs to change depending of whether the user has a degree or not
     if request.session.get('degree'):
@@ -63,7 +67,6 @@ def degreeClassesView(request):
     # seems like the degree context will need a degree name
     # somehow we need to map each course description with the database
     details = courseDescriptionStructure(usersDegree)
-
 
     # the code below should go in the utility function 
     temp = Course.objects.filter(courseID = 1030, courseDept="CSCE")

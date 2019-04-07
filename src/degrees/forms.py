@@ -8,7 +8,7 @@ class DegreeSelectionForm(forms.Form):
     
     degrees = []
 
-    print(degreeList)
+    #print(degreeList)
     for degree in degreeList:
         degrees.append((degree.name,  degree.name))
 
@@ -17,6 +17,10 @@ class DegreeSelectionForm(forms.Form):
     degreeChoices = forms.ChoiceField(choices=degrees)
 
 class CoursesSelectionForm(forms.Form):
+
+    def __init__(self, *args, **kwargs):
+        print(kwargs.pop('test'))
+
     tempArr = []
     degreeRequirements = {
                 "Computer Science and Engineering": [

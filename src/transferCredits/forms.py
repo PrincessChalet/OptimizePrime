@@ -5,7 +5,7 @@ from courses.models import Course
 
 #We need a class where we are going to pass in something like "CHEM" and we're going to filter out those transfer credits with the "equivalentToDept" of CHEM 
 #Should do some research on how to pass in variable into a class 
-class TransferCategoryForm():
+class TransferCategoryForm(forms.Form):
 
     categoryName = ''
     def __init__(self, *args, **kwargs):
