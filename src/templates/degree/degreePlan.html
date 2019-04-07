@@ -10,14 +10,25 @@
     <h1>{{ context['degree']['name'] }}</h1>
     <div>
     {{ csrf_input }}
-
+    
     {# retrieve the categories from the degree object #}
     {# split the category to identify how to process the category #}
     {% for category in context['degree']['degreeInfo'] %}
         {% set tokens = category.split('@') %}
         <h2>{{ tokens[1] }}</h2>
-        {% if '&' in tokens[0] %} 
-            {% for course in context['degree']['degreeInfo'][category]%}
+        {% if '&' in tokens[0] %}
+            <div class="row">
+            <div class="course-col">
+            {% for course in context['degree']['degreeInfo'][category] %}
+
+                {% if loop.index-1 == ((context['degree']['degreeInfo'][category]|length)/3)|round(0,'ceil')|int %}
+                </div>
+                <div class="course-col">
+                {% elif loop.index-1 == (((context['degree']['degreeInfo'][category]|length)/3)*2)|round(0,'ceil')|int %}
+                </div>
+                <div class="course-col">
+                {% endif %}
+
                 {% if course is isList %}
                     {% set courseL = course|join(" or ") %}
                     <input type="checkbox" name="{{ context['degree']['name'] }}" value="{{ courseL }}" style="float:left">
@@ -40,11 +51,18 @@
                                 {% endif %}
                     {% endfor %}
                 {% else %}
-                    <input type="checkbox" name="{{ context['degree']['name'] }}" value="{{ course }}" style="float:left">
-                    <p onclick="hideShow('{{ course }}')" style="padding-left:2em">{{ course }}</p>
-                    <pre id="{{ course }}" style="display:none">{{ context['coursesInfo'][course] }}</pre>
+                    {% if '*' in course %}
+                        <input type="checkbox" name="{{ context['degree']['name'] }}" value="{{ course }}" style="float:left">
+                        <p style="padding-left:2em">{{ course }}</p>
+                    {% else %}
+                        <input type="checkbox" name="{{ context['degree']['name'] }}" value="{{ course }}" style="float:left">
+                        <p class="cC" onclick="hideShow('{{ course }}')">{{ course }}</p>
+                        <div id="{{ course }}" style="display:none;white-space:pre-wrap">{{ context['coursesInfo'][course] }}</div>
+                    {% endif %}
                 {% endif%}
             {% endfor %}
+            </div>
+            </div>
         {% elif '*#' in tokens[0] %}
             {% set hrs = tokens[0]|extractNumber %}
             {% for hr in range(hrs) %}
