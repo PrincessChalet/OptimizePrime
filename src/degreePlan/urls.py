@@ -18,6 +18,7 @@ from django.urls import path
 
 #here is where we import the urls that we have created
 from degrees.views import allDegreesView, degreeClassesView, degreeTimeline
+from transferCredits.views import transferCreditView
 from home.views import homeView
 
 #make sure to add the path to the to the url patters below
@@ -28,4 +29,8 @@ urlpatterns = [
     path('degrees/', allDegreesView, name='degrees'),
     path('degree/', degreeClassesView, name='degreePlan'),
     path('timeline/', degreeTimeline, name='timeline'),
+
+    path('transferCreditList/', transferCreditView, name='transferCreditList'),
+    #path('degrees/', allDegreesView, name='transferCreditList')
 ]
+

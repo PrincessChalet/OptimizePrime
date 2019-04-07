@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<p>Transfer Credit View</p>
+
+<form method='POST'>
+    {{ csrf_input }}
+    {{ form }}
+    <button type='submit'>
+        Submit
+    </button>
+</form>
+
+{% endblock %}
