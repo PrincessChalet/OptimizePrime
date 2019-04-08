@@ -27,9 +27,12 @@ def transferCreditView(request):
         # We build the form 
         #print(request.POST)
         #print(request.POST.get('transfer credits', ''))
-        body_unicode = request.body.decode('utf-8')
-        body = json.loads(body_unicode)
-        transferCredits = body['transfer credits'] 
+
+        # does not work either: 
+        for i in request.POST:
+            print(i)
+            for j in request.POST[i]:
+                print(j)
 
     equivalencyMap = generateTCListByCategory() 
         
