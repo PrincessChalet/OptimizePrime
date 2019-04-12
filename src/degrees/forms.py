@@ -39,8 +39,10 @@ class CoursesSelectionForm(forms.Form):
                         "CSCE 4999"
                     ]
                 ]
-    }
+    }\
 
+
+    #this makes a list from all of the entries form the database
     for category in degreeRequirements:
         for course in degreeRequirements[category]:
             if type(course) is str:
@@ -53,6 +55,7 @@ class CoursesSelectionForm(forms.Form):
                 temp = (tempStr, tempStr)
                 tempArr.append(temp)
 
+    #Here the array ^ becaomes the checkbox choices 
     checks = forms.MultipleChoiceField(
         required=False,
         widget=forms.CheckboxSelectMultiple,
