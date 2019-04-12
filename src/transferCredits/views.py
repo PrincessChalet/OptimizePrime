@@ -24,17 +24,15 @@ import json
 def transferCreditView(request):
 
     if request.method == 'POST':
-        # We build the form 
-        #print(request.POST)
-        #print(request.POST.get('transfer credits', ''))
 
-        # does not work either: 
-        for i in request.POST:
-            print(i)
-            for j in request.POST[i]:
-                print(j)
+        request.session['transferCredit'] = request.POST.getlist('transfer credits')
+            
+        print(request.session['transferCredit'])
+
 
     equivalencyMap = generateTCListByCategory() 
         
     #    return render(request, 'degree/transferCreditList.html', { "context": tempContext })
     return render(request, 'degree/transferCreditList.html', { 'equivalencyList': equivalencyMap})
+
+    
