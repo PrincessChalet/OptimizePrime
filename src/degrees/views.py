@@ -34,11 +34,11 @@ def allDegreesView(request):
         # when accessing objects we will need try/except blocks 
         try:
           choice = Degree.objects.filter(name=cleanedChoice['degreeChoices'])
-          techcourses = TechClasses.objects.filter(name="Engineering TECM")
-          print(techcourses)
-          techcourses = model_to_dict(techcourses[0])
-          print(techcourses)
-          generateDictEntry(techcourses)
+          #techcourses = TechClasses.objects.filter(name="Engineering TECM")
+          #print(techcourses)
+          #techcourses = model_to_dict(techcourses[0])
+          #print(techcourses)
+          #generateDictEntry(techcourses)
           print(choice[0].degreeInfo) # test print
           request.session['degree']=model_to_dict(choice[0])
            
@@ -65,25 +65,26 @@ def degreeClassesView(request):
       #print(request.session.get('degree'))
       print('Degree Set')
       usersDegree = request.session.get('degree')
-      # if the degree is set get the JSON objects
+      # seems like the degree context will need a degree name
+      # somehow we need to map each course description with the database
+      details = courseDescriptionStructure(usersDegree)
+
+      # the code below should go in the utility function 
+      temp = Course.objects.filter(courseID = 1030, courseDept="CSCE")
+      temp = model_to_dict(temp[0])
+      tempDict = {temp['courseDept'] + " " + str(temp['courseID']) : temp['description']}
+
+      tempContext = {
+        "degree": usersDegree,
+        "coursesInfo" : details,
+      } # if the degree is set get the JSON objects
 
     else:
       print('Need a degree')
+      tempContext = {}
       # redirect to other page pass empty context?
 
-    # seems like the degree context will need a degree name
-    # somehow we need to map each course description with the database
-    details = courseDescriptionStructure(usersDegree)
-
-    # the code below should go in the utility function 
-    temp = Course.objects.filter(courseID = 1030, courseDept="CSCE")
-    temp = model_to_dict(temp[0])
-    tempDict = {temp['courseDept'] + " " + str(temp['courseID']) : temp['description']}
-
-    tempContext = {
-        "degree": usersDegree,
-        "coursesInfo" : details,
-    }
+    
 
     return render(request, 'degree/degreePlan.html', { "context": tempContext })
 
