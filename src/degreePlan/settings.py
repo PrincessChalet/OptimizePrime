@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'home',
     'bootstrap4',
     'tecmCore',
+    'mathCore',
 
     # any third party apps we use
 ]

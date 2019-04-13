@@ -343,7 +343,30 @@ def generateCourseInfo(course):
     return courseInfo
 
 # Description:  This funciton generates a dictionary entry
-# Return        a a string and list of courses
-# Parameter:    a JSON object   
-def generateDictEntry(degreeCore):
-    return
+# Return        a a string and list of courses - tuple of a list of courses and a string ()
+# Parameter:    a JSON object, and degree name  
+def generateDictEntry(degreeCore,degreeName):
+    coreCourses = []
+    idString = '*_'
+    print(degreeCore)
+    print(degreeName)
+    
+    counter = 0
+    for cat in degreeCore['tecmCoreInfo']:
+        if cat == 'Universial':
+            for course in degreeCore['tecmCoreInfo'][cat]:
+                counter = counter +1
+                coreCourses.append(course)
+        elif cat == degreeName:
+            for course in degreeCore['tecmCoreInfo'][cat]:
+                counter = counter +1
+                if type(course) is list:
+                    estring = ''
+                    for c in course:
+                        estring = estring + c + ' '
+                    coreCourses.append(estring)
+                else:
+                    coreCourses.append(course)
+                    counter = counter + 1
+    idString = idString + str(counter) + 'Technical Communications'
+    return (idString,coreCourses)

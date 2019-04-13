@@ -34,13 +34,17 @@ def allDegreesView(request):
         # when accessing objects we will need try/except blocks 
         try:
           choice = Degree.objects.filter(name=cleanedChoice['degreeChoices'])
-          techcourses = TechClasses.objects.filter(name="Engineering TECM")
-          print(techcourses)
-          techcourses = model_to_dict(techcourses[0])
-          print(techcourses)
-          generateDictEntry(techcourses)
-          print(choice[0].degreeInfo) # test print
           request.session['degree']=model_to_dict(choice[0])
+          degreeName = request.session.get("degree")['name']
+          techcourses = TechClasses.objects.filter(name="Engineering TECM")
+         # print(techcourses)
+          techcourses = model_to_dict(techcourses[0])
+        #  print(techcourses)
+          tecm = generateDictEntry(techcourses, degreeName)
+          request.session.get('degree')['degreeInfo'][tecm[0]] = tecm[1]
+          print(request.session.get('degree'))
+       #   print(choice[0].degreeInfo) # test print
+         
            
         except Degree.DoesNotExist:
           print('invalid selection')
