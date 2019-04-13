@@ -33,12 +33,13 @@ def allDegreesView(request):
 
         # when accessing objects we will need try/except blocks 
         try:
+          degreeName = request.session.get("degree")['name']
           choice = Degree.objects.filter(name=cleanedChoice['degreeChoices'])
           techcourses = TechClasses.objects.filter(name="Engineering TECM")
           print(techcourses)
           techcourses = model_to_dict(techcourses[0])
           print(techcourses)
-          generateDictEntry(techcourses)
+          generateDictEntry(techcourses, degreeName)
           print(choice[0].degreeInfo) # test print
           request.session['degree']=model_to_dict(choice[0])
            
