@@ -341,3 +341,9 @@ def generateCourseInfo(course):
     courseInfo = courseInfo + '\n' + courseObj['description']
 
     return courseInfo
+
+# Description:  This funciton generates a dictionary entry
+# Return        a a string and list of courses
+# Parameter:    a JSON object   
+def generateDictEntry(degreeCore):
+    return

@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'degrees',
     'home',
     'bootstrap4',
+    'tecmCore',
 
     # any third party apps we use
 ]
