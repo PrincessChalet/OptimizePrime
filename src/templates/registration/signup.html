@@ -1,0 +1,21 @@
+
+{% extends 'base.html' %}
+
+
+{% block content %}
+<h2>Sign Up</h2>
+<form method="post">
+  <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+ 	{%for field in form%}
+ 	<div class="row">
+	 	<div class="col-md-4">
+	 	{{field.label}}:
+	 	</div>
+	 	<div class="col-md-4">
+	 	{{field}}
+	 	</div>
+	 </div>
+ 	{%endfor%}
+  <button type="submit">Create Account</button>
+</form>
+{% endblock %}
