@@ -1,15 +1,15 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from .models import CustomUser
+from .models import Student
 
-class CustomUserCreationForm(UserCreationForm):
+class StudentCreationForm(UserCreationForm):
 
     class Meta(UserCreationForm):
-        model = CustomUser
+        model = Student
         fields = ('username', 'email')
 
-class CustomUserChangeForm(UserChangeForm):
+class StudentChangeForm(UserChangeForm):
 
     class Meta:
-        model = CustomUser
+        model = Student
         fields = ('username', 'email')
