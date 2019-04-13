@@ -350,4 +350,23 @@ def generateDictEntry(degreeCore,degreeName):
     idString = '*_'
     print(degreeCore)
     print(degreeName)
+    
+    counter = 0
+    for cat in degreeCore['tecmCoreInfo']:
+        if cat == 'Universial':
+            for course in degreeCore['tecmCoreInfo'][cat]:
+                counter = counter +1
+                coreCourses.append(course)
+        elif cat == degreeName:
+            for course in degreeCore['tecmCoreInfo'][cat]:
+                counter = counter +1
+                if type(course) is list:
+                    estring = ''
+                    for c in course:
+                        estring = estring + c + ' '
+                    coreCourses.append(estring)
+                else:
+                    coreCourses.append(course)
+                    counter = counter + 1
+    idString = idString + str(counter) + 'Technical Communications'
     return (idString,coreCourses)
