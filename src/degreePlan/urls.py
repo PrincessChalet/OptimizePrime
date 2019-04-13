@@ -14,10 +14,11 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 
 #here is where we import the urls that we have created
 from degrees.views import allDegreesView, degreeClassesView, degreeTimeline
+from transferCredits.views import transferCreditView
 from home.views import homeView
 
 #make sure to add the path to the to the url patters below
@@ -28,4 +29,10 @@ urlpatterns = [
     path('degrees/', allDegreesView, name='degrees'),
     path('degree/', degreeClassesView, name='degreePlan'),
     path('timeline/', degreeTimeline, name='timeline'),
+    path('users/', include('users.urls')),
+    path('users/', include('django.contrib.auth.urls')),
+    path('transferCreditList/', transferCreditView, name='transferCreditList'),
+    #path('degrees/', allDegreesView, name='transferCreditList')
+
 ]
+
