@@ -29,6 +29,7 @@ def allDegreesView(request):
       if degreeChoice.is_valid():
         cleanedChoice = degreeChoice.cleaned_data
 
+
         # when accessing objects we will need try/except blocks 
         try:
           choice = Degree.objects.filter(name=cleanedChoice['degreeChoices'])

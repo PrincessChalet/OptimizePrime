@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Transfer Credit View</h1>
+<p>Please select the credits you already have from the list of possible transfer credits below.</p>
+
+<form method='POST'>
+    
+    <div>
+        {{ csrf_input }}
+        
+        {% for categories, courses in equivalencyList.items() %}
+            <h3>{{categories}}</h3>
+    
+            <!--  -->
+            {% for course in courses %}
+                <!-- <p>{{course}}</p> -->
+    
+                <input type = 'checkbox' value = "{{ course[0] }}" name = 'transfer credits' style = "float:left">
+                <p style = 'padding-left:2em'>{{course[1]}} -> {{course[0]}}</p>
+    
+            {% endfor %}
+    
+        {% endfor %}
+     
+        <button type='submit'>
+            Submit
+        </button>
+
+    </div>
+    
+
+</form>
+
+{% endblock %}
