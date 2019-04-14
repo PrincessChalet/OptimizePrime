@@ -341,3 +341,32 @@ def generateCourseInfo(course):
     courseInfo = courseInfo + '\n' + courseObj['description']
 
     return courseInfo
+
+# Description:  This funciton generates a dictionary entry
+# Return        a a string and list of courses - tuple of a list of courses and a string ()
+# Parameter:    a JSON object, and degree name  
+def generateDictEntry(degreeCore,degreeName,category,lookUpCat):
+    coreCourses = []
+    idString = '*_'
+    print(degreeCore)
+    print(degreeName)
+    
+    counter = 0
+    for cat in degreeCore[lookUpCat]:
+        if cat == 'Universal':
+            for course in degreeCore[lookUpCat][cat]:
+                counter = counter +1
+                coreCourses.append(course)
+        elif cat == degreeName:
+            for course in degreeCore[lookUpCat][cat]:
+                counter = counter +1
+                if type(course) is list:
+                    estring = ''
+                    for c in course:
+                        estring = estring + c + ' '
+                    coreCourses.append(estring)
+                else:
+                    coreCourses.append(course)
+                    #counter = counter + 1
+    idString = idString + str(counter) + '-@' + category
+    return (idString,coreCourses)
