@@ -10,6 +10,7 @@ from .forms import DegreeSelectionForm, CoursesSelectionForm
 # import the courses model; allows us to query DB
 from courses.models import Course
 from tecmCore.models import TechClasses
+from mathCore.models import MathClasses
 
 #adding something to create a model to dict
 from django.forms.models import model_to_dict
@@ -36,12 +37,20 @@ def allDegreesView(request):
           choice = Degree.objects.filter(name=cleanedChoice['degreeChoices'])
           request.session['degree']=model_to_dict(choice[0])
           degreeName = request.session.get("degree")['name']
+
+          # get the technical communications courses
           techcourses = TechClasses.objects.filter(name="Engineering TECM")
          # print(techcourses)
           techcourses = model_to_dict(techcourses[0])
         #  print(techcourses)
-          tecm = generateDictEntry(techcourses, degreeName)
+          tecm = generateDictEntry(techcourses, degreeName, "Technical Communications", "tecmCoreInfo")
           request.session.get('degree')['degreeInfo'][tecm[0]] = tecm[1]
+
+          # get the mathematics courses 
+          mathcourses = MathClasses.objects.filter(name="Engineering MATH")
+          mathcourses = model_to_dict(mathcourses[0])
+          math = generateDictEntry(mathcourses, degreeName, "Mathematics", "mathCoreInfo")
+          request.session.get('degree')['degreeInfo'][math[0]] = math[1]
           print(request.session.get('degree'))
        #   print(choice[0].degreeInfo) # test print
          
