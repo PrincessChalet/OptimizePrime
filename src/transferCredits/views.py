@@ -29,10 +29,10 @@ def transferCreditView(request):
             
         print(request.session['transferCredit'])
 
-
+    myList = request.POST.getlist('transfer credits')
     equivalencyMap = generateTCListByCategory() 
         
     #    return render(request, 'degree/transferCreditList.html', { "context": tempContext })
-    return render(request, 'degree/transferCreditList.html', { 'equivalencyList': equivalencyMap})
+    return render(request, 'degree/transferCreditList.html', {'equivalencyList': equivalencyMap, 'userList': myList})
 
     
