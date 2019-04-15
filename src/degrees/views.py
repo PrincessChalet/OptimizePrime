@@ -71,36 +71,32 @@ def degreeClassesView(request):
         degreeName = request.session.get("degree")['name']
         request.session['taken'] = request.POST.getlist(degreeName)
         print(request.POST)
+        # seems like the degree context will need a degree name
+        # somehow we need to map each course description with the database
+        details = courseDescriptionStructure(usersDegree)
+
+        # the code below should go in the utility function 
+        temp = Course.objects.filter(courseID = 1030, courseDept="CSCE")
+        temp = model_to_dict(temp[0])
+        tempDict = {temp['courseDept'] + " " + str(temp['courseID']) : temp['description']}
+
+        tempContext = {
+            "degree": usersDegree,
+            "coursesInfo" : details,
+        }   
         print(request.session.get("taken"))
-        
-
-
 
     #the context needs to change depending of whether the user has a degree or not
     if request.session.get('degree'):
       #print(request.session.get('degree'))
       print('Degree Set')
       usersDegree = request.session.get('degree')
-      
-      # seems like the degree context will need a degree name
-      # somehow we need to map each course description with the database
-      details = courseDescriptionStructure(usersDegree)
+      # if the degree is set get the JSON objects
 
-      # the code below should go in the utility function 
-      temp = Course.objects.filter(courseID = 1030, courseDept="CSCE")
-      temp = model_to_dict(temp[0])
-      tempDict = {temp['courseDept'] + " " + str(temp['courseID']) : temp['description']}
-
-      tempContext = {
-          "degree": usersDegree,
-          "coursesInfo" : details,
-      } # if the degree is set get the JSON objects  
     else:
       print('Need a degree')
       tempContext = {}
       # redirect to other page pass empty context?
-
-    
 
     return render(request, 'degree/degreePlan.html', { "context": tempContext })
 
