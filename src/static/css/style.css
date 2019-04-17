@@ -10,10 +10,9 @@ h1 {
 nav li {display:inline-block;}
 
 .course-col {
-	position: relative;
-	
-	flex: 0 0 33.333333%;
-	max-width: 33.333333%;
+	position: relative;	
+	flex: 0 0 50%;
+	max-width: 50%;
 }
 
 .row{
@@ -21,23 +20,35 @@ nav li {display:inline-block;}
 	flex-wrap: wrap;
 }
 
-.menu-item{
-
-
-}
 .nav-title{
 	font-size: 32px;
 
 }
-.nav-logo{
 
+.checkboxStyle {
+	float: left;
+	position: absolute;
+	left: 2em;
 }
 
-.cC {
-	padding-left: 2em;
+.displayCourseInfo {
+	display: inline;
+	white-space: pre-wrap;
 }
 
-.cC:hover {
+.starLabel {
+	padding-left: 4em;
+}
+
+.courseName {
+	padding-left: 4em;
+}
+
+.courseNameHighlight {
+	background-color: rgba(85,198,87,.6)
+}
+
+.courseName:hover {
 	background-color: #d3d3d3;
 }
 
@@ -71,12 +82,6 @@ background-color: rgba(85,198,87,.6);
 	list-style-type:circle;
 	margin-left: 8px;
 }
-
-.pre{
-	white-space: pre-wrap;
-}
-
-
 
 .semester{
 	font-size:18px;

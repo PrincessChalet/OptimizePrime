@@ -1,10 +1,8 @@
-function hideShow() {
-    var el = document.getElementById("test");
+function toggleCourseInfo(event, el) {
 
-    if(el.style.display === "none") {
-        el.style.display = "block";
-    }
-    else {
-        el.style.display = "none";
-    }
+    console.log(el);
+
+    $(el).toggleClass("courseNameHighlight");
+    $("[id='"+event+"']").toggle();
+    $("[id='"+event+"']").css("padding-left","2em");
 }

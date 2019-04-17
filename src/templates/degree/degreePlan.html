@@ -2,13 +2,12 @@
 
 {% block content %}
 
-<!--p>Here is where the information about a single degree is displayed!</p-->
 {% if not context %}
     <p>You need to pick a degree first!</p>
 {% else %}
 <form method="POST">
     <h1>{{ context['degree']['name'] }}</h1>
-    <div>
+    <div style="background:rgba(255,255,255,0.85)">
     {{ csrf_input }}
     
     {# retrieve the categories from the degree object #}
@@ -21,10 +20,7 @@
             <div class="course-col">
             {% for course in context['degree']['degreeInfo'][category] %}
 
-                {% if loop.index-1 == ((context['degree']['degreeInfo'][category]|length)/3)|round(0,'ceil')|int %}
-                </div>
-                <div class="course-col">
-                {% elif loop.index-1 == (((context['degree']['degreeInfo'][category]|length)/3)*2)|round(0,'ceil')|int %}
+                {% if loop.index-1 == ((context['degree']['degreeInfo'][category]|length)/2)|round(0,'ceil')|int %}
                 </div>
                 <div class="course-col">
                 {% endif %}
@@ -32,31 +28,31 @@
                 {% if course is isList %}
                     {% set courseL = course|join(" or ") %}
                     <input type="checkbox" name="{{ context['degree']['name'] }}" value="{{ courseL }}" style="float:left">
-                    <p style="padding-left:2em">One course from</p>
+                    <p style="padding-left: 2em">One course from</p>
                     {% for subcourse in course %}    
                                 {% if loop.index > 1%}
                                     {% if '*' in subcourse %}
                                         or <span>{{ subcourse }}</span>
                                     {% else %}
-                                        or <span onclick="hideShow('{{ subcourse }}')">{{ subcourse }}</span>
-                                        <pre id="{{ subcourse }}" style="display:none">{{ context['coursesInfo'][subcourse] }}</pre>
+                                        or <span class="courseName" onclick="toggleCourseInfo('{{ subcourse }}', this)"><b>{{ subcourse }}</b></span>
+                                        <div id="{{ subcourse }}" style="display: none; white-space: pre-wrap">{{ context['coursesInfo'][subcourse] }}</div>
                                     {% endif %}
                                 {% else %}
                                     {% if '*' in subcourse %}
                                         <span>{{ subcourse }}</span>
                                     {% else %}
-                                        <span onclick="hideShow('{{ subcourse }}')">{{ subcourse }}</span>
-                                        <pre id="{{ subcourse }}" style="display:none">{{ context['coursesInfo'][subcourse] }}</pre>
+                                        <span class="courseName" onclick="toggleCourseInfo('{{ subcourse }}', this)"><b>{{ subcourse }}</b></span>
+                                        <div id="{{ subcourse }}" style="display: none; white-space: pre-wrap">{{ context['coursesInfo'][subcourse] }}</div>
                                     {% endif %}
                                 {% endif %}
                     {% endfor %}
                 {% else %}
                     {% if '*' in course %}
-                        <input type="checkbox" name="{{ context['degree']['name'] }}" value="{{ course }}" style="float:left">
-                        <p style="padding-left:2em">{{ course }}</p>
+                        <input type="checkbox" name="{{ context['degree']['name'] }}" value="{{ course }}" class="checkboxStyle">
+                        <p class="starLabel"><b>{{ course }}</b></p>
                     {% else %}
-                        <input type="checkbox" name="{{ context['degree']['name'] }}" value="{{ course }}" style="float:left">
-                        <p class="cC" onclick="hideShow('{{ course }}')">{{ course }}</p>
+                        <input type="checkbox" name="{{ context['degree']['name'] }}" value="{{ course }}" class="checkboxStyle">
+                        <p class="courseName" onclick="toggleCourseInfo('{{ course }}', this)"><b>{{ course }}</b></p>
                         <div id="{{ course }}" style="display:none;white-space:pre-wrap">{{ context['coursesInfo'][course] }}</div>
                     {% endif %}
                 {% endif%}
@@ -72,25 +68,32 @@
  
             {% for subcategory in context['degree']['degreeInfo'][category] %}
                 {% for name, course in subcategory.items() %}    
-                    <h3 onclick="hideShowCat('{{ name }}')">{{ name }}</h3>
-                    <!---div id="{{ name }}" style="display:none;display:flex;flex-direction:row"-->   
-                    <div id="{{ name }}" style="display:none">   
+                    <h3 onclick="hideShowCat('{{ name }}', this)">{{ name }}</h3>
+                    <div id="{{ name }}" style="display:none">
+                    <div class="row">
+                    <div class="course-col"> 
                     {% for c in course %}
+                        
+                        {% if loop.index-1 == ((course|length)/2)|round(0, 'ceil',)|int %}
+                        </div>
+                        <div class="course-col">
+                        {% endif %}
+
                         {% if c is isList %} 
                             {% for i in c %}
                                 {% if loop.index > 1%}
                                     {% if '*' in i %}
-                                        or <span>{{ i }}</span>
+                                        or <span><b>{{ i }}</b></span>
                                     {% else %}
-                                        or <span onclick="hideShow('{{ i }}')">{{ i }}</span>
-                                        <pre id="{{ i }}" style="display:none">{{ context['coursesInfo'][i] }}</pre>
+                                        or <span class="courseName" onclick="toggleCourseInfo('{{ i }}', this)"><b>{{ i }}</b></span>
+                                        <div id="{{ i }}" style="display:none;white-space:pre-wrap">{{ context['coursesInfo'][i] }}</div>
                                     {% endif %}
                                 {% else %}
                                     {% if '*' in i %}
-                                        <span>{{ i }}</span>
+                                        <span><b>{{ i }}</b></span>
                                     {% else %}
-                                        <span onclick="hideShow('{{ i }}')">{{ i }}</span>
-                                        <pre id="{{ i }}" style="display:none">{{ context['coursesInfo'][i] }}</pre>
+                                        <span class="courseName" onclick="toggleCourseInfo('{{ i }}', this)"><b>{{ i }}</b></span>
+                                        <div id="{{ i }}" style="display:none;white-space:pre-wrap">{{ context['coursesInfo'][i] }}</div>
                                     {% endif %}
                                 {% endif %}
                             {% endfor %}
@@ -98,13 +101,15 @@
                             <br>
                         {% else %}
                             {% if '*' in c %}
-                                <p style="padding-right:15px">{{ c }}</p>
+                                <p class="starLabel"><b>{{ c }}</b></p>
                             {% else %}
-                                <p onclick="hideShow('{{ c }}')" style="padding-right:15px">{{ c }}</p>
-                                <pre id="{{ c }}" style="display:none">{{ context['coursesInfo'][c] }}</pre>
+                                <p class="courseName" onclick="toggleCourseInfo('{{ c }}', this)" style="padding-right:15px"><b>{{ c }}</b></p>
+                                <div id="{{ c }}" style="display:none;white-space:pre-wrap">{{ context['coursesInfo'][c] }}</div>
                             {% endif %}
                         {% endif %}
                     {% endfor %}
+                    </div>
+                    </div>
                     </div>
                 {% endfor %}
             {% endfor %}
@@ -115,31 +120,40 @@
                 <p>1 course from {{ tokens[1] }}</p>
             {% endfor %}
 
+            <div class="row">
+            <div class="course-col">
             {% for course in context['degree']['degreeInfo'][category] %}
-                <!-- p>{{ course }}</p-->
+
+                {% if loop.index-1 == ((context['degree']['degreeInfo'][category]|length)/2)|round(0,'ceil')|int %}
+                    </div>
+                    <div class="course-col">
+                {% endif %}
+
                 {% if course is isList %}
                     {% for subcourse in course %}    
                         {% if loop.index > 1%}
                             {% if '*' in subcourse %}
-                                or <span>{{ subcourse }}</span>
+                                or <span><b>{{ subcourse }}</b></span>
                             {% else %}
-                                or <span onclick="hideShow('{{ subcourse }}')">{{ subcourse }}</span>
-                                <pre id="{{ subcourse }}" style="display:none">{{ context['coursesInfo'][subcourse] }}</pre>
+                                or <span class="courseName" onclick="toggleCourseInfo('{{ subcourse }}', this)"><b>{{ subcourse }}</b></span>
+                                <div id="{{ subcourse }}" style="display:none;white-space:pre-wrap">{{ context['coursesInfo'][subcourse] }}</div>
                             {% endif %}
                         {% else %}
                             {% if '*' in subcourse %}
-                                <span>{{ subcourse }}</span>
+                                <span><b>{{ subcourse }}</b></span>
                             {% else %}
-                                <span onclick="hideShow('{{ subcourse }}')">{{ subcourse }}</span>
-                                <pre id="{{ subcourse }}" style="display:none">{{ context['coursesInfo'][subcourse] }}</pre>
+                                <span class="courseName" onclick="toggleCourseInfo('{{ subcourse }}', this)"><b>{{ subcourse }}</b></span>
+                                <div id="{{ subcourse }}" style="display:none;white-space:pre-wrap">{{ context['coursesInfo'][subcourse] }}</div>
                             {% endif %}
                         {% endif %}
                     {% endfor %}
                 {% else %}
-                    <p onclick="hideShow('{{ course }}')">{{ course }}</p>
-                    <pre id="{{ course }}" style="display:none">{{ context['coursesInfo'][course] }}</pre>
+                    <p class="courseName" onclick="toggleCourseInfo('{{ course }}', this)"><b>{{ course }}</b></p>
+                    <div id="{{ course }}" style="display:none;white-space:pre-wrap">{{ context['coursesInfo'][course] }}</div>
                 {% endif%}
             {% endfor %}
+            </div>
+            </div>
         {% endif %}
     {% endfor %}
 
@@ -172,6 +186,7 @@ function hideShowCat(event) {
         el.style.display = "none";
     }
 }
+
 </script>
 
 {% endblock %}
