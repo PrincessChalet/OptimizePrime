@@ -49,10 +49,10 @@
                 {% else %}
                     {% if '*' in course %}
                         <input type="checkbox" name="{{ context['degree']['name'] }}" value="{{ course }}" class="checkboxStyle">
-                        <p class="starLabel"><b>{{ course }}</b></p>
+                        <p class="starLabelAmp"><b>{{ course }}</b></p>
                     {% else %}
                         <input type="checkbox" name="{{ context['degree']['name'] }}" value="{{ course }}" class="checkboxStyle">
-                        <p class="courseName" onclick="toggleCourseInfo('{{ course }}', this)"><b>{{ course }}</b></p>
+                        <p class="courseAmp" onclick="toggleCourseInfo('{{ course }}', this)"><b>{{ course }}</b></p>
                         <div id="{{ course }}" style="display:none;white-space:pre-wrap">{{ context['coursesInfo'][course] }}</div>
                     {% endif %}
                 {% endif%}

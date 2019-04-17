@@ -36,12 +36,20 @@ nav li {display:inline-block;}
 	white-space: pre-wrap;
 }
 
+.courseAmp {
+	padding-left: 4em;
+}
+
 .starLabel {
+	padding-left: 2em;
+}
+
+.starLabelAmp {
 	padding-left: 4em;
 }
 
 .courseName {
-	padding-left: 4em;
+	padding-left: 2em;
 }
 
 .courseNameHighlight {
