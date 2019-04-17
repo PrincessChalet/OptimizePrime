@@ -85,16 +85,16 @@ def degreeClassesView(request):
       # seems like the degree context will need a degree name
       # somehow we need to map each course description with the database
       details = courseDescriptionStructure(usersDegree)
-
+      print(usersDegree)
+      print("\n\n")
+      print(details)
       # the code below should go in the utility function 
-      temp = Course.objects.filter(courseID = 1030, courseDept="CSCE")
-      temp = model_to_dict(temp[0])
-      tempDict = {temp['courseDept'] + " " + str(temp['courseID']) : temp['description']}
-
+      print("test1")
       tempContext = {
           "degree": usersDegree,
           "coursesInfo" : details,
       } # if the degree is set get the JSON objects  
+      print("test2")
     else:
       print('Need a degree')
       tempContext = {}
