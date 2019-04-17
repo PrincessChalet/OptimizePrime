@@ -113,6 +113,13 @@
                     </div>
                 {% endfor %}
             {% endfor %}
+        {% elif '*+' in tokens[0] %}
+            {% set hrs = tokens[0]|extractNumber %}
+            {% for hr in range(hrs) %}
+                <input style="float:left" type="checkbox" name="{{ context['degree']['name']}}" value="{{ tokens[1] }}">
+                <p>1 course from {{ tokens[1] }}</p>
+            {% endfor %}
+            <div class='starLabel'><b>{{ context['degree']['degreeInfo'][category][0] }}</b> </div>
         {% elif '*_' in tokens[0] %}
             {% set hrs = tokens[0]|extractNumber %}
             {% for hr in range(hrs) %}
