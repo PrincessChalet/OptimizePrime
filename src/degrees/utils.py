@@ -293,13 +293,17 @@ def processTimeline(timeline):
 # Return:       A dictionary that maps courses with their database information
 # Parameter:    A degree database object as a dictionary
 def courseDescriptionStructure(degree):
-
+    print("chalet")
     courseDescriptions = {}
 
     # iterate through the object and find the specific courses
     for courseList in degree['degreeInfo'].values():
+        #print(courseList)
         for element in courseList:
-            if type(element) is list:
+            print(element)         
+            if len(element) > 9:
+                print("skipped")
+            elif type(element) is list:
                 for course in element:
                     if '*' not in course:
                         courseDescriptions[course] = generateCourseInfo(course)
@@ -319,9 +323,9 @@ def courseDescriptionStructure(degree):
                             course = entry
                             if '*' not in course:
                                 courseDescriptions[course] = generateCourseInfo(course)
-
+    
+    print("done")
     return courseDescriptions
-
     
 # Description:  This function is used to build a string the represents the information for a particular course
 # Return        A string which holds the parameters information the information is the course's name,
@@ -348,8 +352,8 @@ def generateCourseInfo(course):
 def generateDictEntry(degreeCore,degreeName,category,lookUpCat):
     coreCourses = []
     idString = '*_'
-    print(degreeCore)
-    print(degreeName)
+    #print(degreeCore)
+   # print(degreeName)
     
     counter = 0
     for cat in degreeCore[lookUpCat]:
@@ -361,10 +365,7 @@ def generateDictEntry(degreeCore,degreeName,category,lookUpCat):
             for course in degreeCore[lookUpCat][cat]:
                 counter = counter +1
                 if type(course) is list:
-                    estring = ''
-                    for c in course:
-                        estring = estring + c + ' '
-                    coreCourses.append(estring)
+                    coreCourses.append(course)
                 else:
                     coreCourses.append(course)
                     #counter = counter + 1
