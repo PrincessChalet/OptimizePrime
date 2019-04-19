@@ -129,3 +129,8 @@ def degreeTimeline(request):
 
     #return render(request, 'degree/timeline.html', {'timeline': timeline})
     return render(request, 'degree/timeline.html', {'timeline': fullTimeline})
+
+def addADegree(request):
+
+
+  return render(request, 'degree/addDegree.html', {})

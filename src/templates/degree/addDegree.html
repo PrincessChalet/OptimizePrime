@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div>
+    <form method="POST"> 
+        {{ csrf_input }}
+        Enter the degree name: <input type="text" name="degreeName"> 
+        {# this div is for university core #}
+        <h2>Univeristy Core</h2>
+        <div>
+            Enter a university core section: <input type="text" name="sectionName">
+        </div>
+        <h2>
+            <h2>Degree Requirements</h2>
+            <div>
+                Enter the Degree Requirement Section: <input type="text" name="degreeRequirements">
+            </div>
+        </h2>
+    </form>
+</div>
+
+{% endblock %}
