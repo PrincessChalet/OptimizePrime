@@ -40,6 +40,10 @@ nav li {display:inline-block;}
 	padding-left: 4em;
 }
 
+.courseAmp:hover {
+	background-color: #d3d3d3;
+}
+
 .starLabel {
 	padding-left: 2em;
 }
@@ -63,6 +67,11 @@ nav li {display:inline-block;}
 .navbar-light{
 
 	background: rgba(85,198,87,.6);
+}
+
+.floatBtn {
+	position: fixed;
+	bottom: 45px;
 }
 
 body{
