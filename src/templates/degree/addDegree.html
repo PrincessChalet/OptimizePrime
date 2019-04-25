@@ -10,11 +10,13 @@
         {# this div is for university core #}
         <h2>Univeristy Core</h2>
         <div id="uniCore">
-            <b>Enter the name of the University Core section: </b>
-            <input type="text" name="sectionName" placeholder="Ex. Communications">
-            <br><br>
-            <b>Enter the number of credits for the section: </b>
-            <input type="text" name="sectionHours" placeholder="Ex. 5">
+            <div id="1">
+                <b>Enter the name of the University Core section: </b>
+                <input type="text" name="sectionName" placeholder="Ex. Communications">
+                <br><br>
+                <b>Enter the number of credits for the section: </b>
+                <input type="text" name="sectionHours" placeholder="Ex. 5">
+            </div>   
         </div>
         <button id="coreButton"> Add Another Section </button>
         <h2>
@@ -25,31 +27,5 @@
         </h2>
     </form>
 </div>
-{# A script tag for global variables #}
-<script>
-    var coreCount = 1;
-</script>
-<script>
-function tst() {
-    console.log("test");
-}
-
-$(document).ready(function(){
-    $("#coreButton").bind("click", function(e){
-        coreCount += 1;
-        console.log(coreCount);
-        e.preventDefault();
-
-        var newBreak = "<br>";
-        var newPrompt = "<b>Enter the name of the University Core section: </b>";
-        var newInput = "<input type='text' name='sectionName' placeholder='Ex. Communications'>";
-        var newHourPrompt = "<b>Enter the number of credits for the section: </b>";
-        var newHourInput = "<input type='text' name='sectionHours' placeholder='Ex. 5'>";
-
-        $("#uniCore").append(newBreak, newBreak, newPrompt, newInput, newBreak, newBreak, newHourPrompt, newHourInput);
-    });
-});
-
-</script>
 
 {% endblock %}

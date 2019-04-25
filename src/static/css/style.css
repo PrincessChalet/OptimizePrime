@@ -70,8 +70,20 @@ nav li {display:inline-block;}
 }
 
 .floatBtn {
+	color: white;
+	font-weight: bold;
 	position: fixed;
 	bottom: 45px;
+	right: 45px;
+	height: 10%;
+	width: 10%;
+	background: rgba(85,198,87,1.0);
+	border-color: rgba(85,198,87,1.0);
+	border-radius: 12px;
+}
+
+.floatBtn:hover {
+	background-color: rgba(5,144,51,1.0)
 }
 
 body{
@@ -86,11 +98,11 @@ background-color: rgba(85,198,87,.6);
 .btn-outline-success:active, 
 .btn-outline-success.active,
 .btn-outline-success, 
-.open .dropdown-toggle.btn-success { 
- 
- border-color: rgba(85,198,87,.6);
- margin-right: 5px
+.open .dropdown-toggle.btn-success {
+	border-color: rgba(85,198,87,.6);
+	margin-right: 5px
 } 
+
 .btn-success
 {
 	background-color: rgba(85,198,87,1);
