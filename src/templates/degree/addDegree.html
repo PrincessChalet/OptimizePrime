@@ -5,12 +5,20 @@
 <div>
     <form method="POST"> 
         {{ csrf_input }}
-        Enter the degree name: <input type="text" name="degreeName"> 
+        Enter the degree name: <input type="text" name="degreeName" placeholder="Ex. Computer Science"> 
+        
         {# this div is for university core #}
         <h2>Univeristy Core</h2>
-        <div>
-            Enter a university core section: <input type="text" name="sectionName">
+        <div id="uniCore">
+            <div id="1">
+                <b>Enter the name of the University Core section: </b>
+                <input type="text" name="sectionName" placeholder="Ex. Communications">
+                <br><br>
+                <b>Enter the number of credits for the section: </b>
+                <input type="text" name="sectionHours" placeholder="Ex. 5">
+            </div>   
         </div>
+        <button id="coreButton"> Add Another Section </button>
         <h2>
             <h2>Degree Requirements</h2>
             <div>

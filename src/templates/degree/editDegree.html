@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Get the object here</h1>
+<div id="degreeDropdown">
+    <form method="POST">
+        {{ csrf_input }}
+        {{ context['degrees'] }}
+        <button type="submit" value="test">Submit</button>
+    </form>
+</div>
+
+<h1>Edit the object here</h1>
+{% if not context['choice'] %}
+    <h3>Select a degree from the dropdown</h3>
+{% else %}
+    the degree goes here
+    <input type="text" name="testtest" value="test1">
+    <button type="submit">Submit Changes</button>
+{% endif %}
+
+{% endblock %}
