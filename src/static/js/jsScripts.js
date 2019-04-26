@@ -32,14 +32,6 @@ $(document).ready(function(){
         $("#"+coreCount).append(newBreak, newPrompt, newInput, newBreak, newBreak, newHourPrompt, newHourInput, $newRemoveButton);
     });
 
-    $(".remover").on("click",function(e){
-        e.preventDefault();
-        console.log("Removing");
-    });
-
-    $(".loading").click(function(){
-        $('<h2>Loading</h2>').prependTo(document.body);
-    });
 });
 
 $(document).on("click", ".remover", function(e){
@@ -60,4 +52,9 @@ function removeCoreSection(event) {
 
 function tst() {
     console.log("working")
+}
+
+function addCore(){
+    console.log("unicore");
+    
 }
