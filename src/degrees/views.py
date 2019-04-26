@@ -127,7 +127,7 @@ def degreeTimeline(request):
       #degreeCourses = ["MATH 1710", "MATH 1720", "TECM 2700", "CSCE 2100", "CSCE 2110", "CSCE 3110", "CSCE 4110", "CSCE 4444", "CSCE 4901"]
 
 
-      timeline = timelineGenerator(request.session['requirements'])
+      timeline = timelineGenerator(request.session['requirements'], request.session['electives'])
 
       #print("Finished setting the timeline\n\n")
       #print(timeline)
