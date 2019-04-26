@@ -33,16 +33,32 @@
 </nav>
 
 <!--Start menu -->
-<br>
-<nav>
-    <ul class="nav justify-content-center">
+{% if request.user.is_superuser %}
+	<br>
+	<nav>
+    	<ul class="nav justify-content-center">
 
-        <li class="menu-item"><button type="button" class= "btn btn-outline-success "><a href="{{ url('degrees') }} ">Select a Degree</a></button></li>
-        <li class="menu-item"><button type="button" class= "btn btn-outline-success "><a href="{{ url('degreePlan') }}">View Degree Plan</a></button></li>
-        <li class="menu-item"><button type="button" class= "btn btn-outline-success "><a href="{{ url ('timeline') }}">View Timeline</a></button></li>
-        <li class="menu-item"><button type="button" class= "btn btn-outline-success "><a href="{{url ('transferCreditList')}}">View Transfer Credits</a></button></li>
-    </ul>
-</nav>
-<br>
+        	<li class="menu-item"><a class="btn btn-outline-success" href="{{ url('degrees') }} " role="button">Select a Degree</a></li>
+        	<li class="menu-item"><a class="btn btn-outline-success" href="{{ url('degreePlan') }}" role="button">View Degree Plan</a></li>
+        	<li class="menu-item"><a class="btn btn-outline-success" href="{{ url ('timeline') }}" role="button">View Timeline</a></li>
+        	<li class="menu-item"><a class="btn btn-outline-success" href="{{url ('transferCreditList')}}" role="button">View Transfer Credits</a></li>
+        	<li class="menu-item"><a class="btn btn-outline-success" href="{{url ('addDegree')}}" role="button">Add a Degree</a></li>
+        	<li class="menu-item"><a class="btn btn-outline-success" href="{{url ('editDegree')}}" role="button">Edit a Degree</a></li>
+    	</ul>
+	</nav>
+	<br>
+<!--Start menu -->
+{% else %}
+	<br>
+	<nav>
+    	<ul class="nav justify-content-center">
+
+        	<li class="menu-item"><a class="btn btn-outline-success" href="{{ url('degrees') }} " role="button">Select a Degree</a></li>
+        	<li class="menu-item"><a class="btn btn-outline-success" href="{{ url('degreePlan') }}" role="button">View Degree Plan</a></li>
+        	<li class="menu-item"><a class="btn btn-outline-success" id="loading" href="{{ url ('timeline') }}" role="button">View Timeline</a></li>
+        	<li class="menu-item"><a class="btn btn-outline-success" href="{{url ('transferCreditList')}}" role="button">View Transfer Credits</a></li>
+    	</ul>
+	</nav>
+	<br>
 <!--End Menu -->
-
+{% endif %}

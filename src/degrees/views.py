@@ -14,7 +14,7 @@ from mathCore.models import MathClasses
 
 #adding something to create a model to dict
 from django.forms.models import model_to_dict
-from .utils import timelineGenerator, processTimeline, courseDescriptionStructure, generateDictEntry
+from .utils import timelineGenerator, processTimeline, courseDescriptionStructure, generateDictEntry, extractInfo
 
 # Create your views here.
 # Description: This function generates a dropdown form so that he users
@@ -24,8 +24,6 @@ def allDegreesView(request):
     # need to figure out stuff about default values
     if request.method == 'POST':
       degreeChoice = DegreeSelectionForm(request.POST)
-      mathForm = ['MATH']
-      test = CoursesSelectionForm(request.POST, test=mathForm)
 
       # The code below is used to get the user's input
       if degreeChoice.is_valid():
@@ -40,9 +38,7 @@ def allDegreesView(request):
 
           # get the technical communications courses
           techcourses = TechClasses.objects.filter(name="Engineering TECM")
-         # print(techcourses)
           techcourses = model_to_dict(techcourses[0])
-        #  print(techcourses)
           tecm = generateDictEntry(techcourses, degreeName, "Technical Communications", "tecmCoreInfo")
           request.session.get('degree')['degreeInfo'][tecm[0]] = tecm[1]
 
@@ -51,10 +47,15 @@ def allDegreesView(request):
           mathcourses = model_to_dict(mathcourses[0])
           math = generateDictEntry(mathcourses, degreeName, "Mathematics", "mathCoreInfo")
           request.session.get('degree')['degreeInfo'][math[0]] = math[1]
-          print(request.session.get('degree'))
-       #   print(choice[0].degreeInfo) # test print
-         
-           
+
+          classes = extractInfo(request.session.get('degree')['degreeInfo'])
+          print(classes[0])
+          print("\n\n\n")
+          print(classes[1])
+          request.session['requirements'] = classes[0]
+          request.session['electives'] = classes[1]
+
+
         except Degree.DoesNotExist:
           print('invalid selection')
       else:
@@ -91,8 +92,21 @@ def degreeClassesView(request):
       #print(request.session.get('degree'))
       print('Degree Set')
       usersDegree = request.session.get('degree')
-      # if the degree is set get the JSON objects
 
+            # seems like the degree context will need a degree name
+      # somehow we need to map each course description with the database
+      details = courseDescriptionStructure(usersDegree)
+      #print(usersDegree)
+      print("\n\n")
+      #print(details)
+      # the code below should go in the utility function 
+      print("test1")
+      tempContext = {
+          "degree": usersDegree,
+          "coursesInfo" : details,
+      } # if the degree is set get the JSON objects  
+      print("test2")
+    
     else:
       print('Need a degree')
       tempContext = {}
@@ -106,22 +120,53 @@ def degreeTimeline(request):
     # here we use the degree that the user has already selected
     # not sure if we would need to ask for the degree object again
 
+    if request.session.get('degree'):
 
-    ### assume we extracted all the classes from the JSON degree object
-    ### and placed them in a list.
-    degreeCourses = ["MATH 1710", "MATH 1720", "TECM 2700", "CSCE 2100", "CSCE 2110", "CSCE 3110", "CSCE 4110", "CSCE 4444", "CSCE 4901"]
+      ### assume we extracted all the classes from the JSON degree object
+      ### and placed them in a list.
+      #degreeCourses = ["MATH 1710", "MATH 1720", "TECM 2700", "CSCE 2100", "CSCE 2110", "CSCE 3110", "CSCE 4110", "CSCE 4444", "CSCE 4901"]
 
-    sampleContext = {'name': 'Computer Science'}
 
-    timeline = timelineGenerator()
+      timeline = timelineGenerator(request.session['requirements'])
 
-    #print("Finished setting the timeline\n\n")
-    #print(timeline)
+      #print("Finished setting the timeline\n\n")
+      #print(timeline)
     
-    fullTimeline = processTimeline(timeline)
+      fullTimeline = processTimeline(timeline)
+
+    else:
+      print("you need a degree")
+      fullTimeline = {}
     #print(fullTimeline)
 #******** need to further refine the timeline here before passing it to the view
 #******** need another util function
 
     #return render(request, 'degree/timeline.html', {'timeline': timeline})
     return render(request, 'degree/timeline.html', {'timeline': fullTimeline})
+
+def addADegree(request):
+
+
+  return render(request, 'degree/addDegree.html', {})
+
+def editDegree(request):
+    if request.method == 'POST':
+      print(request.POST)
+
+      if request.POST.get("degreeChoices"):
+        degreeChoice = DegreeSelectionForm(request.POST)
+
+        if degreeChoice.is_valid():
+          cleanChoice = degreeChoice.cleaned_data
+          context = {
+            "degrees": '',
+            "choice": 'this',
+          }
+          #choice = 
+
+    degreeDropdown = DegreeSelectionForm()
+    context = { 
+      "degrees": degreeDropdown, 
+      "choice": ''}
+
+    return render(request, 'degree/editDegree.html', { "context": context })

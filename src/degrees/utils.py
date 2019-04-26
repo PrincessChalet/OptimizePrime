@@ -3,12 +3,14 @@ from courses.models import Course, Prereq
 
 from django.forms.models import model_to_dict
 
+import re 
+
 # needs the course array and the university core array
-def timelineGenerator():
+def timelineGenerator(courses):
 
 #*****************
 # TEST values
-    degreeCourses = ["MATH 1710", "MATH 1720", "TECM 2700", "CSCE 2100", "CSCE 2110", "CSCE 3110", "CSCE 4110", "CSCE 4444", "CSCE 4901"]
+    #degreeCourses = ["MATH 1710", "MATH 1720", "TECM 2700", "CSCE 2100", "CSCE 2110", "CSCE 3110", "CSCE 4110", "CSCE 4444", "CSCE 4901"]
     coreCats = ["Communication", "Creative Arts", "Language, Philosophy, and Culture"]
 #*****************
 
@@ -17,9 +19,9 @@ def timelineGenerator():
     timeline = {0:[]}
 
     # here we loop through each course in the degree
-    for i in degreeCourses:
+    for i in courses:
         # call the recursive function
-        coursePlacement(i, degreeCourses, coreCats, timeline)
+        coursePlacement(i, courses, coreCats, timeline)
 
     #print(timeline) #test print
 
@@ -293,13 +295,17 @@ def processTimeline(timeline):
 # Return:       A dictionary that maps courses with their database information
 # Parameter:    A degree database object as a dictionary
 def courseDescriptionStructure(degree):
-
+    print("chalet")
     courseDescriptions = {}
 
     # iterate through the object and find the specific courses
     for courseList in degree['degreeInfo'].values():
+        #print(courseList)
         for element in courseList:
-            if type(element) is list:
+            print(element)         
+            if len(element) > 9:
+                print("skipped")
+            elif type(element) is list:
                 for course in element:
                     if '*' not in course:
                         courseDescriptions[course] = generateCourseInfo(course)
@@ -319,9 +325,9 @@ def courseDescriptionStructure(degree):
                             course = entry
                             if '*' not in course:
                                 courseDescriptions[course] = generateCourseInfo(course)
-
+    
+    print("done")
     return courseDescriptions
-
     
 # Description:  This function is used to build a string the represents the information for a particular course
 # Return        A string which holds the parameters information the information is the course's name,
@@ -347,9 +353,9 @@ def generateCourseInfo(course):
 # Parameter:    a JSON object, and degree name  
 def generateDictEntry(degreeCore,degreeName,category,lookUpCat):
     coreCourses = []
-    idString = '*_'
-    print(degreeCore)
-    print(degreeName)
+    idString = '&_'
+    #print(degreeCore)
+   # print(degreeName)
     
     counter = 0
     for cat in degreeCore[lookUpCat]:
@@ -361,12 +367,65 @@ def generateDictEntry(degreeCore,degreeName,category,lookUpCat):
             for course in degreeCore[lookUpCat][cat]:
                 counter = counter +1
                 if type(course) is list:
-                    estring = ''
-                    for c in course:
-                        estring = estring + c + ' '
-                    coreCourses.append(estring)
+                    coreCourses.append(course)
                 else:
                     coreCourses.append(course)
                     #counter = counter + 1
     idString = idString + str(counter) + '-@' + category
     return (idString,coreCourses)
+
+def extractInfo(degree):
+
+    requirements = []
+    electives = []
+
+    #print(degree)
+
+    for key, items in degree.items():
+        if '*' in key:
+            x = re.findall("\d", key)
+            hrs = ''
+            
+            if len(x) > 1:
+                for i in x:
+                    hrs += i
+            else:
+                hrs = x[0]
+            hrs = int(hrs, 10)
+            
+            for i in range(hrs):
+                electives.append(key[5:len(key)] + " course")
+
+        elif '&' in key:
+            x = re.findall("\d", key)
+
+            hrs = ''
+            if len(x) > 1:
+                for i in x:
+                    hrs += i
+            else:
+                hrs = x[0]
+            hrs = int(hrs, 10)
+
+            for course in items:
+                if type(course) == str:
+#                    print(course)
+                    if '*' in course:
+                        electives.append(course)
+                    else:
+                        requirements.append(course)
+                else:
+                    print("not a single string")
+                    #print(course)
+
+                    size = len(course)
+                    blank = ''
+                    for c in course:
+                        blank += c
+                        if size > 1:
+                            blank += " or "
+                            size -= 1
+
+                    electives.append(blank)
+                    #print(blank)
+    return (requirements, electives)
