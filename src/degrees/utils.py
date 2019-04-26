@@ -6,24 +6,83 @@ from django.forms.models import model_to_dict
 import re 
 
 # needs the course array and the university core array
-def timelineGenerator(courses):
+def timelineGenerator(courses, electives):
 
 #*****************
 # TEST values
     #degreeCourses = ["MATH 1710", "MATH 1720", "TECM 2700", "CSCE 2100", "CSCE 2110", "CSCE 3110", "CSCE 4110", "CSCE 4444", "CSCE 4901"]
     coreCats = ["Communication", "Creative Arts", "Language, Philosophy, and Culture"]
-#*****************
 
+    uniCore = []
+    for i in range(8):
+        uniCore.append("University Core")
+
+#*****************
+    print("Core\n\n")
+    print(uniCore)
 
     # create the initial dictionary
     timeline = {0:[]}
+
+    prefixes = []
+    token = courses[0].split()
+    prefixes.append((token[0], 0))
+    for i in range(1, len(courses)):
+        index = 0
+        found = False
+        for j in prefixes:
+            if j[0] in courses[i]:
+                found = True
+                temp = (j[0], j[1]+1)
+                prefixes[index] = temp
+            index += 1
+        if not found:
+            token = courses[i].split()
+            temp = (token[0],0)
+            prefixes.append(temp)
+
+    prefixes.sort(key=priority, reverse=True)
+    print(prefixes)
+
+    mostCommonDept = prefixes[0][0]
+    print(mostCommonDept)
 
     # here we loop through each course in the degree
     for i in courses:
         # call the recursive function
         coursePlacement(i, courses, coreCats, timeline)
 
-    #print(timeline) #test print
+    threeThousandCourse = mostCommonDept + " 3"
+    fourThousandCourse = mostCommonDept + " 4"
+    threeKey = 0
+    fourKey = 0
+    for key, values in timeline.items():
+        for i in values:
+            if threeThousandCourse in i[0]:
+                threeKey = key
+                break
+
+    for key, values in timeline.items():
+        for i in values:
+            if fourThousandCourse in i[0]:
+                fourKey = key
+                break
+
+    print(threeKey)
+    print(fourKey)
+
+    for i in range(len(uniCore)):
+        if i <= len(uniCore)/2:
+            timeline[1].append((uniCore[i],0,[]))
+        else:
+            timeline[2].append((uniCore[i],0,[]))
+
+    for i in range(len(electives)):
+        if fourThousandCourse in electives[i]:
+            timeline[fourKey].append((electives[i],0,[]))
+        else:
+            timeline[threeKey].append((electives[i],0,[]))
+    print(timeline) #test print
 
     # sort the dictionary before returning it
     for i in timeline:
@@ -153,7 +212,7 @@ def coursePlacement(currentCourse, coursesList, coreList, timeline):
                 # if this prereq is not in the degree or a core course
                 elif temp["prereqCourses"][i][0] not in coursesList and prereqCat[0]['category'] not in coreList:
                     # ignore this prereq
-                    print("ignore this course") # test print
+                    print("ignore this course: " + pTokens[0] + ' ' + str(pTokens[1])) # test print
                 # else this prereq is in the degree or is a core course
                 else:
                     # the course is not a leaf
