@@ -5,8 +5,12 @@ from django.forms.models import model_to_dict
 
 import re 
 
+import math
+
+import copy
+
 # needs the course array and the university core array
-def timelineGenerator(courses, electives):
+def timelineGenerator(courses, electives, rankings, coursesTaken, transferCredits):
 
 #*****************
 # TEST values
@@ -18,12 +22,15 @@ def timelineGenerator(courses, electives):
         uniCore.append("University Core")
 
 #*****************
-    print("Core\n\n")
-    print(uniCore)
+    print(coursesTaken)
+    print(transferCredits)
+    #print("Core\n\n")
+    #print(uniCore)
 
     # create the initial dictionary
     timeline = {0:[]}
 
+    # loop trough and find the most common department
     prefixes = []
     token = courses[0].split()
     prefixes.append((token[0], 0))
@@ -40,36 +47,81 @@ def timelineGenerator(courses, electives):
             token = courses[i].split()
             temp = (token[0],0)
             prefixes.append(temp)
-
     prefixes.sort(key=priority, reverse=True)
-    print(prefixes)
+    #print(prefixes)
 
     mostCommonDept = prefixes[0][0]
-    print(mostCommonDept)
+    #print(mostCommonDept)
+
+    # loop trough the courses the courses that the student has already taken
+    coursesCopy = copy.deepcopy(courses)
+    rankingsCopy = copy.deepcopy(rankings)
+    for i in coursesTaken:
+        if i in coursesCopy:
+            coursesCopy.remove(i)
+        else:
+            for course in rankings:
+                if i in course:
+                    rankingsCopy.remove(course)
+                    break
+
+    for i in transferCredits:
+        if i in coursesCopy:
+            coursesCopy.remove(i)
+        else:
+            for credit in rankingsCopy:
+                if i in credit:
+                    rankingsCopy.remove(credit)
+                    break
+    
+    print("courses copy: ", end="")
+    print(coursesCopy)
+    print("rankings copy: ", end="")
+    print(rankingsCopy)
 
     # here we loop through each course in the degree
-    for i in courses:
+    for i in coursesCopy:
         # call the recursive function
-        coursePlacement(i, courses, coreCats, timeline)
+        coursePlacement(i, coursesCopy, coreCats, timeline)
 
+    twoThousandCourse = mostCommonDept + " 2"
     threeThousandCourse = mostCommonDept + " 3"
     fourThousandCourse = mostCommonDept + " 4"
+
+    twoKey= 0
     threeKey = 0
     fourKey = 0
+    lastKey = list(timeline)[-1]
+    found = False
+    
+    for key, values in timeline.items():
+        for i in values:
+            if twoThousandCourse in i[0]:
+                twoKey = key
+                found = True
+                break
+        if found:
+            break
+
+    found = False
     for key, values in timeline.items():
         for i in values:
             if threeThousandCourse in i[0]:
                 threeKey = key
+                found = True
                 break
+        if found:
+            break
 
+    found = False
     for key, values in timeline.items():
         for i in values:
             if fourThousandCourse in i[0]:
                 fourKey = key
+                found = True
                 break
-
-    print(threeKey)
-    print(fourKey)
+        if found:
+            break
 
     for i in range(len(uniCore)):
         if i <= len(uniCore)/2:
@@ -77,18 +129,27 @@ def timelineGenerator(courses, electives):
         else:
             timeline[2].append((uniCore[i],0,[]))
 
-    for i in range(len(electives)):
-        if fourThousandCourse in electives[i]:
-            timeline[fourKey].append((electives[i],0,[]))
-        else:
-            timeline[threeKey].append((electives[i],0,[]))
-    print(timeline) #test print
+    #print(rankings)
+    
+    for i in rankingsCopy:
+        #print(i[1])
+        if i[1] == 1:
+            timeline[twoKey].append((i[0],0,[]))
+        elif i[1] == 2:
+            timeline[threeKey].append((i[0],0,[]))
+        elif i[1] == 3:
+            timeline[fourKey].append((i[0],0,[]))
+        elif i[1] == 4:
+            timeline[lastKey].append((i[0],0,[]))
 
     # sort the dictionary before returning it
     for i in timeline:
         timeline[i].sort(key=priority, reverse=True)
 
-    print(timeline) #test print
+    #print(timeline) #test print
+    #for key,values in timeline.items():
+    #    print(key,end=": "
+    #    print(values)
     # return a dictionary that acts like a hash map
     return timeline
 
@@ -157,13 +218,13 @@ def updatePriority(updateInfo, course, timeline):
 # Parameters:  currentCourse is a course in a list, the coursesList is the list of courses in the degree, coreList is
 #              a list of the univeristy core categories, timeline is the preprocessed timeline
 def coursePlacement(currentCourse, coursesList, coreList, timeline):
-    print("++++++++++ Current Course: " + currentCourse)
+#    print("++++++++++ Current Course: " + currentCourse)
     tokens = currentCourse.split()
     
     checkCourse = Course.objects.filter(courseDept=tokens[0], courseID=tokens[1]).exists()
 
     if not checkCourse:
-        print("The course does not exists. Return an error.")
+#        print("The course does not exists. Return an error.")
         return -1
 
     # here we get the prereqs for a course in the courses list with a database call
@@ -281,6 +342,11 @@ def processTimeline(timeline):
     counter = 0 # a variable to count in fives
     total = 0 # the total of courses in level
 
+    #for key, vals in timeline.items():
+    #    print(key, end=" ")
+    #    print(vals)
+    #print()
+
     # while there are entries in the timeline to process
     while True:
         # if the current timeline level is not empty
@@ -309,7 +375,8 @@ def processTimeline(timeline):
 
             # if there are spots that can be filled in the current semester
             if counter < 5 and index + 1 != len(timeline):
-
+                # a list to collect elements which will be deleted later
+                collector = []               
                 # loop through the next course level
                 for i,j,k in timeline[index + 1]:
                     canAdd = True # assume that the current course can be added to the current semester
@@ -324,12 +391,16 @@ def processTimeline(timeline):
                     # if the course can be added to the timeline
                     if canAdd:
                         tempArr.append(i) # add the course to the current semester
-                        timeline[index+1].remove((i,j,k)) # remove the course from the timeline at level + 1
+                        collector.append((i,j,k))
                         counter = counter + 1 # increase the counter
                         
                         # if there are no more course spaces in the current semester
                         if counter == 5: 
                             break
+
+                # remove elements from the timeline
+                for i in collector:
+                    timeline[index+1].remove(i)
 
             fullTimeline.append(tempArr) # add the semester to the timeline
             index = index + 1 # move to the next level in the timeline
@@ -346,6 +417,9 @@ def processTimeline(timeline):
     # if the semester has courses 
     if tempArr:
         fullTimeline.append(tempArr) # add the semester to the timeline
+
+    #for i in fullTimeline:
+    #    print(i)
 
     return fullTimeline # return the processed timeline
 
@@ -437,6 +511,7 @@ def extractInfo(degree):
 
     requirements = []
     electives = []
+    rankings = []
 
     #print(degree)
 
@@ -454,7 +529,68 @@ def extractInfo(degree):
             
             for i in range(hrs):
                 electives.append(key[5:len(key)] + " course")
+            if '*_' in key:
 
+                if items[0] is str:
+                    lowest = items[0][5]
+                elif items[0] is list:
+                    lowest = items[0][0][5]
+                #print(lowest)
+                for course in items:
+                    if course is str:
+                        if course[5] < lowest:
+                            lowest = course[5]
+                    elif course is list:
+                        for c in course:
+                            if c[5] < lowest:
+                                lowest = course[5]
+                lowest = int(lowest)
+                for i in range(hrs):
+                    rankings.append((key[5:len(key)], lowest))        
+            elif '*+' in key:
+                for i in range(hrs):
+                    rankings.append((key[5:len(key)], 4))
+            elif '*#' in key:
+                print("stuff with subcats")
+                counter = 0
+                lowest = 10000
+                for obj in items:
+                    for subCat, subItems in obj.items():
+                            if counter == 0:
+                                lowest = subItems[0][5]
+                            for course in subItems:
+                                if course is str:
+                                    if course[5] < lowest:
+                                        lowest = course[5]
+                                elif course is list:
+                                    for c in course:
+                                        if c[5] < lowest:
+                                            lowest = c[5]
+                            counter = counter + 1
+                lowest = int(lowest)
+                counter = 0
+                for i in range(hrs):
+                    if counter == math.floor(hrs/3):
+                        lowest = lowest + 1
+                    elif counter == math.floor(2*hrs/3):
+                        lowest = lowest + 1
+                    elif counter == math.floor(3*hrs/3):
+                        lowest = lowest + 1
+
+                    if counter < hrs/3 and lowest < 5:
+                        rankings.append((key[5:len(key)], lowest))
+                        #lowest = lowest + 1
+                        counter = counter + 1
+                    elif counter < (2*hrs)/3 and lowest < 5:
+                        rankings.append((key[5:len(key)], lowest))
+                        #lowest = lowest + 1
+                        counter = counter + 1
+                    elif counter < (3*hrs)/3 and lowest < 5:
+                        rankings.append((key[5:len(key)], lowest))
+                        #lowest = lowest + 1
+                        counter = counter + 1
+                    else:
+                        rankings.append((key[5:len(key)], 4))
         elif '&' in key:
             x = re.findall("\d", key)
 
@@ -471,6 +607,7 @@ def extractInfo(degree):
 #                    print(course)
                     if '*' in course:
                         electives.append(course)
+                        rankings.append((course, int(course[5])))
                     else:
                         requirements.append(course)
                 else:
@@ -479,12 +616,26 @@ def extractInfo(degree):
 
                     size = len(course)
                     blank = ''
+                    lowest = course[0][5]
                     for c in course:
+                        if c[5] < lowest:
+                            lowest = c[5]
+
                         blank += c
                         if size > 1:
                             blank += " or "
                             size -= 1
 
+                    lowest = int(lowest)
                     electives.append(blank)
-                    #print(blank)
-    return (requirements, electives)
+                    rankings.append((blank, lowest))
+    #print(rankings)
+    return (requirements, electives, rankings)
+
+def processChoices(currentChoices, newChoices):
+
+    for course in newChoices:
+        if course not in currentChoices:
+            currentChoices.append(course)
+
+    return currentChoices

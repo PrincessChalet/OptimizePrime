@@ -16,6 +16,8 @@ from django.forms.models import model_to_dict
 #import the TransferCredit model
 from .utils import generateTCListByCategory
 
+from degrees.utils import processChoices
+
 import json
 
 # Create your views here.
@@ -24,8 +26,13 @@ import json
 def transferCreditView(request):
 
     if request.method == 'POST':
+        tempTransferCredits = request.POST.getlist('transfer credits')
 
-        request.session['transferCredit'] = request.POST.getlist('transfer credits')
+        if 'transferCredit' in request.session:
+            result = processChoices(request.session['transferCredit'],tempTransferCredits)
+        else:
+            result = processChoices([], tempTransferCredits)
+        request.session['transferCredit'] = result
             
         print(request.session['transferCredit'])
 
