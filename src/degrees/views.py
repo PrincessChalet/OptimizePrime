@@ -14,7 +14,7 @@ from mathCore.models import MathClasses
 
 #adding something to create a model to dict
 from django.forms.models import model_to_dict
-from .utils import timelineGenerator, processTimeline, courseDescriptionStructure, generateDictEntry, extractInfo
+from .utils import timelineGenerator, processTimeline, courseDescriptionStructure, generateDictEntry, extractInfo, processChoices
 
 # Create your views here.
 # Description: This function generates a dropdown form so that he users
@@ -50,11 +50,15 @@ def allDegreesView(request):
 
           classes = extractInfo(request.session.get('degree')['degreeInfo'])
           print(classes[0])
-          print("\n\n\n")
+          print("\n\n")
           print(classes[1])
+          print("\n\n")
+          print(classes[2])
           request.session['requirements'] = classes[0]
           request.session['electives'] = classes[1]
-
+          request.session['rankings'] = classes[2]
+          if 'taken' in request.session:
+            del request.session['taken']
 
         except Degree.DoesNotExist:
           print('invalid selection')
@@ -70,8 +74,16 @@ def degreeClassesView(request):
 
     if request.method == 'POST':
         degreeName = request.session.get("degree")['name']
-        request.session['taken'] = request.POST.getlist(degreeName)
-        print(request.POST)
+        #request.session['taken'] = request.POST.getlist(degreeName)
+           
+        result = []
+        if 'taken' in request.session:
+          result = processChoices(request.session['taken'], request.POST.getlist(degreeName))
+        else:
+          result = processChoices([], request.POST.getlist(degreeName))
+        request.session['taken'] = result
+
+        #print(request.POST)
         print(request.session.get("taken"))
 
     #the context needs to change depending of whether the user has a degree or not
@@ -79,26 +91,24 @@ def degreeClassesView(request):
       #print(request.session.get('degree'))
       print('Degree Set')
       usersDegree = request.session.get('degree')
-      
-      # seems like the degree context will need a degree name
+
+            # seems like the degree context will need a degree name
       # somehow we need to map each course description with the database
       details = courseDescriptionStructure(usersDegree)
       #print(usersDegree)
-      print("\n\n")
+      #print("\n\n")
       #print(details)
       # the code below should go in the utility function 
-      print("test1")
+      #print("test1")
       tempContext = {
           "degree": usersDegree,
           "coursesInfo" : details,
       } # if the degree is set get the JSON objects  
-      print("test2")
+      #print("test2")
     else:
       print('Need a degree')
       tempContext = {}
       # redirect to other page pass empty context?
-
-    
 
     return render(request, 'degree/degreePlan.html', { "context": tempContext })
 
@@ -114,8 +124,17 @@ def degreeTimeline(request):
       ### and placed them in a list.
       #degreeCourses = ["MATH 1710", "MATH 1720", "TECM 2700", "CSCE 2100", "CSCE 2110", "CSCE 3110", "CSCE 4110", "CSCE 4444", "CSCE 4901"]
 
-
-      timeline = timelineGenerator(request.session['requirements'], request.session['electives'])
+      if 'taken' not in request.session:
+        print("no taken courses")
+        taken = []
+      else:
+        taken = request.session['taken']
+      if 'transferCredit' not in request.session:
+        print("no transfer credits")
+        transferCredits = []
+      else:
+        transferCredits = request.session['transferCredit']
+      timeline = timelineGenerator(request.session['requirements'], request.session['electives'], request.session['rankings'], taken, transferCredits)
 
       #print("Finished setting the timeline\n\n")
       #print(timeline)

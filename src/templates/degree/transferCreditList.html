@@ -3,15 +3,22 @@
 {% block content %}
 
 <h1>Transfer Credit View</h1>
-<p>Please select the credits you already have from the list of possible transfer credits below.</p>
 
 <form method='POST'>
     
     <div>
+        <h3>My Transfer Credits</h3>
+        <p>{{ request.session['transferCredit'] }}</p>
+    </div>
+    <div>
         {{ csrf_input }}
         
+        <h3>Transfer Credit Options</h3>
+        <p>Please select the credits you already have from the list of possible transfer credits below.</p>
+
         {% for categories, courses in equivalencyList.items() %}
-            <h3>{{categories}}</h3>
+        
+            <h4>{{categories}}</h4>
     
             <!--  -->
             {% for course in courses %}
@@ -24,7 +31,7 @@
     
         {% endfor %}
      
-        <button type='submit'>
+        <button type='submit' class="floatBtn">
             Submit
         </button>
 
