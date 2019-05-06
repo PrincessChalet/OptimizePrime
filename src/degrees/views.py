@@ -74,23 +74,6 @@ def degreeClassesView(request):
 
     if request.method == 'POST':
         degreeName = request.session.get("degree")['name']
-<<<<<<< HEAD
-        request.session['taken'] = request.POST.getlist(degreeName)
-        print(request.POST)
-        # seems like the degree context will need a degree name
-        # somehow we need to map each course description with the database
-        details = courseDescriptionStructure(usersDegree)
-
-        # the code below should go in the utility function 
-        temp = Course.objects.filter(courseID = 1030, courseDept="CSCE")
-        temp = model_to_dict(temp[0])
-        tempDict = {temp['courseDept'] + " " + str(temp['courseID']) : temp['description']}
-
-        tempContext = {
-            "degree": usersDegree,
-            "coursesInfo" : details,
-        }   
-=======
         #request.session['taken'] = request.POST.getlist(degreeName)
            
         result = []
@@ -101,7 +84,6 @@ def degreeClassesView(request):
         request.session['taken'] = result
 
         #print(request.POST)
->>>>>>> 7a3581f5c565c19beb8004c851de7e6465d89a8b
         print(request.session.get("taken"))
 
     #the context needs to change depending of whether the user has a degree or not
@@ -122,12 +104,7 @@ def degreeClassesView(request):
           "degree": usersDegree,
           "coursesInfo" : details,
       } # if the degree is set get the JSON objects  
-<<<<<<< HEAD
-      print("test2")
-    
-=======
       #print("test2")
->>>>>>> 7a3581f5c565c19beb8004c851de7e6465d89a8b
     else:
       print('Need a degree')
       tempContext = {}
