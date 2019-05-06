@@ -30,7 +30,22 @@ class TransferCategoryForm(forms.Form):
         choices = []
     )
         
+class addCreditForm(forms.Form):
+    #courseID = models.PositiveSmallIntegerField(null=True, blank=True)
+    #courseDept = models.CharField(max_length=4,null=True, blank=True)
+    #name = models.CharField(max_length=50)
+    #equivalentToID = models.CharField(max_length=4, null=True, blank=True)
+    #equivalentToDept = models.CharField(max_length=4, null=True, blank=True)
+    #requiredScore = models.CharField(max_length=5, null=True, blank=True)
+    #equivalentToCat = models.CharField(max_length=50, null=True, blank=True)
 
+    courseID            = forms.IntegerField(label = 'Course ID', required = False)
+    courseDept          = forms.CharField(label = 'Course Departement', required = False)
+    name                = forms.CharField(label = 'Full Title with Course ID')
+    equivalentToID      = forms.CharField(label = 'Equivalent Course ID', required = False) 
+    equivalentToDept    = forms.CharField(label = 'Equivalent Course Department', required = False) 
+    requiredScore       = forms.CharField(label = 'Required Score', required = False)
+    equivalentToCat     = forms.CharField(label = 'Equivalent Category', required = False)
 
 
     

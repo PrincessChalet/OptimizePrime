@@ -4,7 +4,7 @@ from django.shortcuts import render
 from courses.models import Course
 
 # import the transfer form?
-from .forms import TransferCategoryForm
+from .forms import TransferCategoryForm, addCreditForm
 
 #import the TransferCredit model
 from .models import TransferCredit
@@ -36,10 +36,23 @@ def transferCreditView(request):
             
         print(request.session['transferCredit'])
 
-
+    myList = request.POST.getlist('transfer credits')
     equivalencyMap = generateTCListByCategory() 
         
     #    return render(request, 'degree/transferCreditList.html', { "context": tempContext })
-    return render(request, 'degree/transferCreditList.html', { 'equivalencyList': equivalencyMap})
+    return render(request, 'degree/transferCreditList.html', {'equivalencyList': equivalencyMap})
 
-    
+def addTransferCredit(request):
+    form = addCreditForm()
+    if request.method == "POST":
+        form = addCreditForm(request.POST)
+        if form.is_valid():
+            print(form.cleaned_data)
+            TransferCredit.objects.create(**form.cleaned_data)
+        else:
+            print(form.errors)
+    context = {
+        "form": form
+    }
+
+    return render(request, 'degree/addTransferCredit.html', context)

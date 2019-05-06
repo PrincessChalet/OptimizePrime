@@ -91,8 +91,8 @@ def degreeClassesView(request):
       #print(request.session.get('degree'))
       print('Degree Set')
       usersDegree = request.session.get('degree')
-      
-      # seems like the degree context will need a degree name
+
+            # seems like the degree context will need a degree name
       # somehow we need to map each course description with the database
       details = courseDescriptionStructure(usersDegree)
       #print(usersDegree)
@@ -109,8 +109,6 @@ def degreeClassesView(request):
       print('Need a degree')
       tempContext = {}
       # redirect to other page pass empty context?
-
-    
 
     return render(request, 'degree/degreePlan.html', { "context": tempContext })
 
