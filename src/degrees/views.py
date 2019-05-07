@@ -152,7 +152,10 @@ def degreeTimeline(request):
     return render(request, 'degree/timeline.html', {'timeline': fullTimeline})
 
 def addADegree(request):
+  if request.method == 'POST':
+    print(request.POST)
 
+  
 
   return render(request, 'degree/addDegree.html', {})
 
