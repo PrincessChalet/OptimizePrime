@@ -9,11 +9,11 @@ In order to use our program make sure that you have Python 3.7.2 installed. Our 
 	 An example of our file hierarchy
 
 	 ProjectsRoot
-	 
+	 |
 	 degreePlan
-	 
+	 |
 	 ++++++++++++++++++++++++++++++++++++++++++++++++++
-	 |                                                |     
+	 |                                                 
 	(create virtual environment here)	         (place the github OptimizePrime folder here)
 
 3. Next run the virtual environment using the line
