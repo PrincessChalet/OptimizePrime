@@ -1,5 +1,13 @@
 # OptimizePrime
+
 In order to use our program make sure that you have Python 3.7.2 installed. Our team used pip 19.0.2 as our package manager and the following instruction will use pip commands.
+
+NOTES
+- You may download a specific python version from https://www.python.org/downloads/
+	- pip will be installed along with the python download
+- If you have multiple versions of python installed on your system, replace `python` with `python3`.
+- All of the following commands are executed in a powershell terminal. Changes may be necessary for other terminal types.
+
 
 1. Once you confirm that python and pip are installed on your system, install virtualenv using the line\
 	`pip install virtualenv`
@@ -32,5 +40,3 @@ In order to use our program make sure that you have Python 3.7.2 installed. Our 
       `python manage.py runserver`
 
 
-NOTES
-- If you have multiple versions of python installed on your system, replace `python` with `python3`.
