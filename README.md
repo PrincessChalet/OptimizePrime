@@ -13,7 +13,7 @@ In order to use our program make sure that you have Python 3.7.2 installed. Our 
 				|-- (create virtual environment here)
 				|-- (place the github OptimizePrime folder here)
 
-3. Next run the virtual environment using the line
+3. Next run the virtual environment using the line\
 		  `./Scripts/activate`
 4. Next enter the directory OptimizePrime and then the src directory
 5. Next install the following packages using pip
@@ -25,10 +25,10 @@ In order to use our program make sure that you have Python 3.7.2 installed. Our 
 ```
 6. Once everything is installed and making sure that you are in the src directory run the following two lines
 ```
-		  python manage.py makemigrations
-		  python manage.py migrate
+	python manage.py makemigrations
+	python manage.py migrate
 ```
-7. Lastly, you can launch the server using the line
+7. Lastly, you can launch the server using the line\
       `python manage.py runserver`
 
 
