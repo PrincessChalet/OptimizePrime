@@ -23,7 +23,7 @@ NOTES
 
 3. Next run the virtual environment using the line\
 		  `./Scripts/activate`
-4. Next enter the directory OptimizePrime and then the src directory
+4. Next enter the directory OptimizePrime using `cd OptimizePrime` and then the src directory using `cd src`
 5. Next install the following packages using pip
 ```
 	pip install django             (our project was written using django 2.1.7)
