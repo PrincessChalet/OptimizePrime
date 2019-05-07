@@ -19,9 +19,9 @@ In order to use our program make sure that you have Python 3.7.2 installed. Our 
 5. Next install the following packages using pip
 ```
 	pip install django             (our project was written using django 2.1.7)
-      	pip install psycopg2        (our project used 2.7.7) 
-      	pip install bootstrap4       (our project used 0.1.0)
-      	pip install jinja2	     (our project used 2.10)
+      	pip install psycopg2           (our project used 2.7.7) 
+      	pip install bootstrap4         (our project used 0.1.0)
+      	pip install jinja2	       (our project used 2.10)
 ```
 6. Once everything is installed and making sure that you are in the src directory run the following two lines
 ```
