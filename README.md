@@ -2,9 +2,9 @@
 In order to use our program make sure that you have Python 3.7.2 installed. Our team used pip 19.0.2 as our package manager and the following instruction will use pip commands.
 
 1. Once you confirm that python and pip are installed on your system, install virtualenv using the line
-      pip install virtualenv
+	-pip install virtualenv
 2. Next create your virtual environment inside the folder where you add this project using the line
-      python -m venv environmentName
+	-python -m venv environmentName
 
 	 An example of our file hierarchy
 		
